@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A fast all-in-one browser toolkit with JSON, encoding, security, timestamp, regex, and QR utilities." />
+    <title>Toolbox Hub - 10 Developer Tools in One</title>
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Replace ca-pub-XXXXXXXXXXXXXXXX with your own Google AdSense publisher ID before going live. -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <header class="hero">
+      <nav class="topbar" aria-label="Primary navigation">
+        <a class="brand" href="#top" aria-label="Toolbox Hub home">
+          <span class="brand-mark">T</span>
+          <span>Toolbox Hub</span>
+        </a>
+        <a class="github-link" href="#tools">Open tools</a>
+      </nav>
+
+      <section id="top" class="hero-content">
+        <p class="eyebrow">All tools in one place</p>
+        <h1>Everyday developer utilities in one clean website.</h1>
+        <p class="hero-copy">
+          Validate JSON, generate UUIDs and passwords, decode JWTs, test regexes, create QR codes, and more — all from your browser.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#tools">Start using tools</a>
+          <a class="button secondary" href="#ad-settings">Ad setup</a>
+        </div>
+      </section>
+    </header>
+
+    <main>
+      <section id="tools" class="tools-section" aria-labelledby="tools-title">
+        <div class="section-heading">
+          <p class="eyebrow">10 tools included</p>
+          <h2 id="tools-title">Choose a utility</h2>
+        </div>
+
+        <div class="tool-layout">
+          <aside class="tool-nav" aria-label="Tool list">
+            <button class="tool-tab active" data-tool="json-validator">JSON validator</button>
+            <button class="tool-tab" data-tool="json-formatter">JSON formatter</button>
+            <button class="tool-tab" data-tool="uuid-generator">UUID generator</button>
+            <button class="tool-tab" data-tool="base64-encoder">Base64 encoder</button>
+            <button class="tool-tab" data-tool="url-encoder">URL encoder</button>
+            <button class="tool-tab" data-tool="password-generator">Password generator</button>
+            <button class="tool-tab" data-tool="jwt-decoder">JWT decoder</button>
+            <button class="tool-tab" data-tool="timestamp-converter">Timestamp converter</button>
+            <button class="tool-tab" data-tool="regex-tester">Regex tester</button>
+            <button class="tool-tab" data-tool="qr-generator">QR code generator</button>
+          </aside>
+
+          <div class="tool-panels">
+            <article class="tool-panel active" id="json-validator" data-tool-panel>
+              <div class="panel-header"><h3>JSON validator</h3><p>Check whether JSON is valid and see parse errors.</p></div>
+              <textarea id="jsonValidatorInput" spellcheck="false" placeholder='{"hello":"world"}'></textarea>
+              <div class="button-row"><button id="validateJson" class="button primary">Validate JSON</button><button class="button ghost" data-clear="jsonValidatorInput,jsonValidatorOutput">Clear</button></div>
+              <pre id="jsonValidatorOutput" class="result" aria-live="polite"></pre>
+            </article>
+
+            <article class="tool-panel" id="json-formatter" data-tool-panel>
+              <div class="panel-header"><h3>JSON formatter</h3><p>Pretty-print or minify JSON for APIs and configs.</p></div>
+              <textarea id="jsonFormatterInput" spellcheck="false" placeholder='{"compact":true,"items":[1,2,3]}'></textarea>
+              <div class="button-row"><button id="formatJson" class="button primary">Format</button><button id="minifyJson" class="button secondary">Minify</button><button class="button ghost" data-clear="jsonFormatterInput,jsonFormatterOutput">Clear</button></div>
+              <pre id="jsonFormatterOutput" class="result"></pre>
+            </article>
+
+            <article class="tool-panel" id="uuid-generator" data-tool-panel>
+              <div class="panel-header"><h3>UUID generator</h3><p>Create RFC 4122 version 4 UUIDs.</p></div>
+              <label>How many UUIDs?<input id="uuidCount" type="number" min="1" max="100" value="5" /></label>
+              <div class="button-row"><button id="generateUuid" class="button primary">Generate UUIDs</button><button id="copyUuid" class="button secondary">Copy</button></div>
+              <pre id="uuidOutput" class="result"></pre>
+            </article>
+
+            <article class="tool-panel" id="base64-encoder" data-tool-panel>
+              <div class="panel-header"><h3>Base64 encoder</h3><p>Encode text to Base64 or decode it back to UTF-8.</p></div>
+              <textarea id="base64Input" placeholder="Type text or Base64 here"></textarea>
+              <div class="button-row"><button id="encodeBase64" class="button primary">Encode</button><button id="decodeBase64" class="button secondary">Decode</button><button class="button ghost" data-clear="base64Input,base64Output">Clear</button></div>
+              <pre id="base64Output" class="result"></pre>
+            </article>
+
+            <article class="tool-panel" id="url-encoder" data-tool-panel>
+              <div class="panel-header"><h3>URL encoder</h3><p>Encode or decode URL components safely.</p></div>
+              <textarea id="urlInput" placeholder="https://example.com/search?q=hello world"></textarea>
+              <div class="button-row"><button id="encodeUrl" class="button primary">Encode</button><button id="decodeUrl" class="button secondary">Decode</button><button class="button ghost" data-clear="urlInput,urlOutput">Clear</button></div>
+              <pre id="urlOutput" class="result"></pre>
+            </article>
+
+            <article class="tool-panel" id="password-generator" data-tool-panel>
+              <div class="panel-header"><h3>Password generator</h3><p>Create strong passwords with configurable character sets.</p></div>
+              <div class="grid-two">
+                <label>Length<input id="passwordLength" type="number" min="8" max="128" value="20" /></label>
+                <label>Quantity<input id="passwordQuantity" type="number" min="1" max="20" value="5" /></label>
+              </div>
+              <div class="checkbox-grid">
+                <label><input id="useUppercase" type="checkbox" checked /> Uppercase</label>
+                <label><input id="useLowercase" type="checkbox" checked /> Lowercase</label>
+                <label><input id="useNumbers" type="checkbox" checked /> Numbers</label>
+                <label><input id="useSymbols" type="checkbox" checked /> Symbols</label>
+              </div>
+              <div class="button-row"><button id="generatePassword" class="button primary">Generate passwords</button><button id="copyPassword" class="button secondary">Copy</button></div>
+              <pre id="passwordOutput" class="result"></pre>
+            </article>
+
+            <article class="tool-panel" id="jwt-decoder" data-tool-panel>
+              <div class="panel-header"><h3>JWT decoder</h3><p>Decode JWT header and payload without verifying the signature.</p></div>
+              <textarea id="jwtInput" spellcheck="false" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."></textarea>
+              <div class="button-row"><button id="decodeJwt" class="button primary">Decode JWT</button><button class="button ghost" data-clear="jwtInput,jwtOutput">Clear</button></div>
+              <pre id="jwtOutput" class="result"></pre>
+            </article>
+
+            <article class="tool-panel" id="timestamp-converter" data-tool-panel>
+              <div class="panel-header"><h3>Timestamp converter</h3><p>Convert Unix timestamps to dates and dates to Unix timestamps.</p></div>
+              <div class="grid-two">
+                <label>Unix timestamp<input id="timestampInput" type="text" placeholder="1715443200" /></label>
+                <label>Date and time<input id="dateInput" type="datetime-local" /></label>
+              </div>
+              <div class="button-row"><button id="timestampToDate" class="button primary">Timestamp to date</button><button id="dateToTimestamp" class="button secondary">Date to timestamp</button><button id="useCurrentTime" class="button ghost">Use current time</button></div>
+              <pre id="timestampOutput" class="result"></pre>
+            </article>
+
+            <article class="tool-panel" id="regex-tester" data-tool-panel>
+              <div class="panel-header"><h3>Regex tester</h3><p>Test JavaScript regular expressions and inspect matches.</p></div>
+              <div class="grid-two">
+                <label>Pattern<input id="regexPattern" type="text" placeholder="\\btool\\b" /></label>
+                <label>Flags<input id="regexFlags" type="text" value="gi" placeholder="gimuy" /></label>
+              </div>
+              <textarea id="regexText" placeholder="Paste text to test against your regex"></textarea>
+              <div class="button-row"><button id="testRegex" class="button primary">Test regex</button><button class="button ghost" data-clear="regexPattern,regexFlags,regexText,regexOutput">Clear</button></div>
+              <pre id="regexOutput" class="result"></pre>
+            </article>
+
+            <article class="tool-panel" id="qr-generator" data-tool-panel>
+              <div class="panel-header"><h3>QR code generator</h3><p>Create QR codes for URLs, text, Wi-Fi details, and more.</p></div>
+              <textarea id="qrInput" placeholder="https://example.com"></textarea>
+              <div class="grid-two">
+                <label>Size<input id="qrSize" type="number" min="120" max="600" value="240" /></label>
+                <label>Error correction<select id="qrEcLevel"><option value="L">Low</option><option value="M" selected>Medium</option><option value="Q">Quartile</option><option value="H">High</option></select></label>
+              </div>
+              <div class="button-row"><button id="generateQr" class="button primary">Generate QR</button><a id="downloadQr" class="button secondary" download="qr-code.png" href="#">Download PNG</a></div>
+              <div id="qrOutput" class="qr-output" aria-live="polite"></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <aside class="ad-shell ad-leaderboard" aria-label="Advertisement">
+        <span>Advertisement</span>
+        <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+          data-ad-slot="1234567890"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+        <p class="ad-fallback">Your ad will appear here after you add a real publisher ID and ad slot.</p>
+      </aside>
+
+      <aside class="ad-shell ad-rectangle" aria-label="Advertisement">
+        <span>Advertisement</span>
+        <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+          data-ad-slot="0987654321"
+          data-ad-format="rectangle"></ins>
+        <p class="ad-fallback">Medium rectangle ad placement.</p>
+      </aside>
+
+      <section id="ad-settings" class="ad-settings">
+        <div>
+          <p class="eyebrow">Monetization ready</p>
+          <h2>Ad integration is already wired in.</h2>
+        </div>
+        <p>
+          The page includes responsive ad slots for Google AdSense. Replace the placeholder publisher ID and slot IDs in <code>index.html</code>, then deploy the static files to your host. The tools are placed near the top so visitors can start using them without scrolling past ads.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <p>Toolbox Hub runs client-side in your browser. JWT decoding does not verify signatures.</p>
+    </footer>
+
+    <script src="assets/local-qr.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
