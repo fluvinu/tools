@@ -30,10 +30,9 @@ Google AdSense placeholders are already added in `index.html`:
 - Replace `ca-pub-XXXXXXXXXXXXXXXX` with your real publisher ID.
 - Replace `1234567890` and `0987654321` with your real ad slot IDs.
 - Keep the fallback text while testing, or remove it after ads are approved and rendering.
-- Ad placements appear after the tool area so visitors can see and start using tools immediately on page load.
 
 ## Notes
 
 - All tools run client-side in the browser.
 - JWT decoding only decodes the header and payload; it does not verify signatures.
-- The QR code tool uses the local `assets/local-qr.js` generator, so visitors do not need a third-party CDN for QR generation. It supports common short text and URL QR codes up to 106 UTF-8 bytes.
+- The QR code tool loads the `qrcode` browser library from jsDelivr. If you want fully offline hosting, download that library and update the script tag in `index.html`.

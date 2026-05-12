@@ -233,23 +233,19 @@ function initQr() {
     }
 
     if (!window.QRCode) {
-      output.innerHTML = '<p>Local QR generator did not load. Make sure assets/local-qr.js is deployed with the site.</p>';
+      output.innerHTML = '<p>QR library could not load. Check your internet connection or host the QRCode library locally.</p>';
       return;
     }
 
-    try {
-      const canvas = document.createElement('canvas');
-      await QRCode.toCanvas(canvas, text, {
-        width: size,
-        margin: 2,
-        errorCorrectionLevel: $('#qrEcLevel').value,
-        color: { dark: '#0f172a', light: '#ffffff' },
-      });
-      output.appendChild(canvas);
-      $('#downloadQr').href = canvas.toDataURL('image/png');
-    } catch (error) {
-      output.textContent = error.message;
-    }
+    const canvas = document.createElement('canvas');
+    await QRCode.toCanvas(canvas, text, {
+      width: size,
+      margin: 2,
+      errorCorrectionLevel: $('#qrEcLevel').value,
+      color: { dark: '#0f172a', light: '#ffffff' },
+    });
+    output.appendChild(canvas);
+    $('#downloadQr').href = canvas.toDataURL('image/png');
   });
 }
 
