@@ -82,6 +82,7 @@
             <button class="tool-tab" data-tool="cgpa-calculator">CGPA calculator</button>
             <button class="tool-tab" data-tool="image-converter">Image converter</button>
             <button class="tool-tab" data-tool="pdf-tools">PDF tools</button>
+            <button class="tool-tab" data-tool="word-counter">Word & Character Counter</button>
           </aside>
 
           <div class="tool-panels">
@@ -241,6 +242,13 @@
               <div class="button-row"><button id="inspectPdf" class="button primary">Inspect PDF</button><button id="printPdfText" class="button secondary">Print text as PDF</button><button class="button ghost" data-clear="pdfText,pdfOutput">Clear</button></div>
               <pre id="pdfOutput" class="result"></pre>
             </article>
+
+            <article class="tool-panel" id="word-counter" data-tool-panel>
+              <div class="panel-header"><h3>Word & Character Counter</h3><p>Count words, characters, and spaces in your text.</p></div>
+              <textarea id="wordCounterInput" placeholder="Type or paste your text here..."></textarea>
+              <div class="button-row"><button id="countWords" class="button primary">Count</button><button class="button ghost" data-clear="wordCounterInput,wordCounterOutput">Clear</button></div>
+              <pre id="wordCounterOutput" class="result"></pre>
+            </article>
           </div>
         </div>
       </section>
@@ -275,7 +283,7 @@
       <p>Toolbox Hub runs client-side in your browser. JWT decoding does not verify signatures.</p>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js" crossorigin="anonymous"></script>
     <script src="script.js"></script>
   </body>
 </html>
