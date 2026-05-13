@@ -4,8 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="A fast all-in-one browser toolkit with developer, calculator, image, and PDF utilities." />
+    <meta name="keywords" content="developer tools, json validator, json formatter, json diff, string escape, base64 encoder, uuid generator, online tools, utility toolkit, free browser tools" />
+    <meta property="og:title" content="Toolbox Hub - Free Browser Tools in One" />
+    <meta property="og:description" content="A fast all-in-one browser toolkit with developer, calculator, image, and PDF utilities." />
+    <meta property="og:type" content="website" />
     <meta name="google-adsense-account" content="ca-pub-1860593061024704">
-    <title>Toolbox Hub - 17 Free Browser Tools in One</title>
+    <title>Toolbox Hub - Free Browser Tools in One</title>
     <link rel="stylesheet" href="styles.css" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1860593061024704" crossorigin="anonymous"></script>
   </head>
@@ -45,24 +49,56 @@
         </div>
 
         <div class="tool-layout">
-          <aside class="tool-nav" aria-label="Tool list">
-            <button class="tool-tab active" data-tool="json-validator">JSON validator</button>
-            <button class="tool-tab" data-tool="json-formatter">JSON formatter</button>
-            <button class="tool-tab" data-tool="uuid-generator">UUID generator</button>
-            <button class="tool-tab" data-tool="base64-encoder">Base64 encoder</button>
-            <button class="tool-tab" data-tool="url-encoder">URL encoder</button>
-            <button class="tool-tab" data-tool="password-generator">Password generator</button>
-            <button class="tool-tab" data-tool="jwt-decoder">JWT decoder</button>
-            <button class="tool-tab" data-tool="timestamp-converter">Timestamp converter</button>
-            <button class="tool-tab" data-tool="regex-tester">Regex tester</button>
-            <button class="tool-tab" data-tool="qr-generator">QR code generator</button>
-            <button class="tool-tab" data-tool="age-calculator">Age calculator</button>
-            <button class="tool-tab" data-tool="percentage-calculator">Percentage calculator</button>
-            <button class="tool-tab" data-tool="emi-calculator">EMI calculator</button>
-            <button class="tool-tab" data-tool="cgpa-calculator">CGPA calculator</button>
-            <button class="tool-tab" data-tool="image-converter">Image converter</button>
-            <button class="tool-tab" data-tool="pdf-tools">PDF tools</button>
-            <button class="tool-tab" data-tool="word-counter">Word & Character Counter</button>
+          <aside class="tool-nav-container" aria-label="Tool list">
+            <div class="search-container">
+              <input type="text" id="toolSearch" placeholder="Search tools..." aria-label="Search tools">
+            </div>
+            <div class="tool-nav">
+              <div class="tool-category">
+                <h4 class="category-title">Data & JSON Tools</h4>
+                <div class="category-tools">
+                  <button class="tool-tab active" data-tool="json-validator">JSON validator</button>
+                  <button class="tool-tab" data-tool="json-formatter">JSON formatter</button>
+                  <button class="tool-tab" data-tool="json-diff">JSON diff</button>
+                </div>
+              </div>
+              <div class="tool-category">
+                <h4 class="category-title">Encoders & Decoders</h4>
+                <div class="category-tools">
+                  <button class="tool-tab" data-tool="base64-encoder">Base64 encoder</button>
+                  <button class="tool-tab" data-tool="url-encoder">URL encoder</button>
+                  <button class="tool-tab" data-tool="jwt-decoder">JWT decoder</button>
+                  <button class="tool-tab" data-tool="string-escape">String escape</button>
+                </div>
+              </div>
+              <div class="tool-category">
+                <h4 class="category-title">Generators & Utilities</h4>
+                <div class="category-tools">
+                  <button class="tool-tab" data-tool="uuid-generator">UUID generator</button>
+                  <button class="tool-tab" data-tool="password-generator">Password generator</button>
+                  <button class="tool-tab" data-tool="qr-generator">QR code generator</button>
+                  <button class="tool-tab" data-tool="timestamp-converter">Timestamp converter</button>
+                  <button class="tool-tab" data-tool="regex-tester">Regex tester</button>
+                  <button class="tool-tab" data-tool="word-counter">Word & Character Counter</button>
+                </div>
+              </div>
+              <div class="tool-category">
+                <h4 class="category-title">Calculators</h4>
+                <div class="category-tools">
+                  <button class="tool-tab" data-tool="age-calculator">Age calculator</button>
+                  <button class="tool-tab" data-tool="percentage-calculator">Percentage calculator</button>
+                  <button class="tool-tab" data-tool="emi-calculator">EMI calculator</button>
+                  <button class="tool-tab" data-tool="cgpa-calculator">CGPA calculator</button>
+                </div>
+              </div>
+              <div class="tool-category">
+                <h4 class="category-title">Media & Documents</h4>
+                <div class="category-tools">
+                  <button class="tool-tab" data-tool="image-converter">Image converter</button>
+                  <button class="tool-tab" data-tool="pdf-tools">PDF tools</button>
+                </div>
+              </div>
+            </div>
           </aside>
 
           <div class="tool-panels">
@@ -78,6 +114,25 @@
               <textarea id="jsonFormatterInput" spellcheck="false" placeholder='{"compact":true,"items":[1,2,3]}'></textarea>
               <div class="button-row"><button id="formatJson" class="button primary">Format</button><button id="minifyJson" class="button secondary">Minify</button><button class="button ghost" data-clear="jsonFormatterInput,jsonFormatterOutput">Clear</button></div>
               <pre id="jsonFormatterOutput" class="result"></pre>
+            </article>
+
+            <article class="tool-panel" id="json-diff" data-tool-panel>
+              <div class="panel-header"><h3>JSON diff</h3><p>Compare two JSON objects to find differences.</p></div>
+              <div class="grid-two">
+                <div>
+                  <label for="jsonDiffInput1">Original JSON</label>
+                  <textarea id="jsonDiffInput1" spellcheck="false" placeholder='{"name": "John", "age": 30}'></textarea>
+                </div>
+                <div>
+                  <label for="jsonDiffInput2">Modified JSON</label>
+                  <textarea id="jsonDiffInput2" spellcheck="false" placeholder='{"name": "John", "age": 31, "city": "NY"}'></textarea>
+                </div>
+              </div>
+              <div class="button-row"><button id="compareJson" class="button primary">Compare JSON</button><button class="button ghost" data-clear="jsonDiffInput1,jsonDiffInput2,diffLeft,diffRight">Clear</button></div>
+              <div id="jsonDiffOutput" class="result diff-result grid-two" aria-live="polite">
+                <div id="diffLeft" class="diff-pane"></div>
+                <div id="diffRight" class="diff-pane"></div>
+              </div>
             </article>
 
             <article class="tool-panel" id="uuid-generator" data-tool-panel>
@@ -122,6 +177,26 @@
               <textarea id="jwtInput" spellcheck="false" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."></textarea>
               <div class="button-row"><button id="decodeJwt" class="button primary">Decode JWT</button><button class="button ghost" data-clear="jwtInput,jwtOutput">Clear</button></div>
               <pre id="jwtOutput" class="result"></pre>
+            </article>
+
+            <article class="tool-panel" id="string-escape" data-tool-panel>
+              <div class="panel-header"><h3>String escape</h3><p>Escape or unescape strings for JSON, HTML, or URLs.</p></div>
+              <textarea id="escapeInput" placeholder='Type text like <script> or "hello"'></textarea>
+              <div class="grid-two">
+                <label>Format
+                  <select id="escapeFormat">
+                    <option value="json">JSON</option>
+                    <option value="html">HTML</option>
+                    <option value="url">URL</option>
+                  </select>
+                </label>
+              </div>
+              <div class="button-row">
+                <button id="escapeString" class="button primary">Escape</button>
+                <button id="unescapeString" class="button secondary">Unescape</button>
+                <button class="button ghost" data-clear="escapeInput,escapeOutput">Clear</button>
+              </div>
+              <pre id="escapeOutput" class="result"></pre>
             </article>
 
             <article class="tool-panel" id="timestamp-converter" data-tool-panel>
@@ -264,6 +339,7 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/diff/dist/diff.min.js" crossorigin="anonymous"></script>
     <script src="script.js"></script>
   </body>
 </html>

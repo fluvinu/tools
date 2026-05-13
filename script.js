@@ -142,6 +142,38 @@ function initToolTabs() {
 
   const initialTool = window.location.hash ? window.location.hash.slice(1) : $('.tool-tab.active')?.dataset.tool;
   if (initialTool) activateTool(initialTool, false);
+
+  const searchInput = $('#toolSearch');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase().trim();
+      $$('.tool-category').forEach((category) => {
+        let hasVisibleTool = false;
+        const tools = Array.from(category.querySelectorAll('.tool-tab'));
+        tools.forEach((tool) => {
+          const name = tool.textContent.toLowerCase();
+          const matches = name.includes(term);
+          tool.classList.toggle('hidden', !matches);
+          if (matches) hasVisibleTool = true;
+        });
+        category.classList.toggle('hidden', !hasVisibleTool);
+      });
+    });
+  }
+}
+
+function initAutoResize() {
+  const textareas = $$('textarea');
+  textareas.forEach((textarea) => {
+    textarea.classList.add('auto-expand');
+    const resize = () => {
+      textarea.style.height = 'auto';
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    };
+    textarea.addEventListener('input', resize);
+    // Initial resize to fit placeholders
+    setTimeout(resize, 0);
+  });
 }
 
 function initJsonTools() {
@@ -167,6 +199,77 @@ function initJsonTools() {
       setOutput('jsonFormatterOutput', JSON.stringify(safeJsonParse($('#jsonFormatterInput').value)), 'success');
     } catch (error) {
       setOutput('jsonFormatterOutput', error.message, 'error');
+    }
+  });
+
+  $('#compareJson').addEventListener('click', () => {
+    try {
+      const obj1 = safeJsonParse($('#jsonDiffInput1').value);
+      const obj2 = safeJsonParse($('#jsonDiffInput2').value);
+      const str1 = JSON.stringify(obj1, null, 2);
+      const str2 = JSON.stringify(obj2, null, 2);
+
+      if (!window.Diff) {
+         $('#jsonDiffOutput').innerHTML = '<span style="color:var(--error);">Diff library not loaded. Check internet connection.</span>';
+         return;
+      }
+
+      const diff = Diff.diffLines(str1, str2);
+      const fragLeft = document.createDocumentFragment();
+      const fragRight = document.createDocumentFragment();
+
+      diff.forEach((part) => {
+        const lines = part.value.replace(/\n$/, '').split('\n');
+
+        lines.forEach(line => {
+           const spanLeft = document.createElement('span');
+           const spanRight = document.createElement('span');
+
+           if (part.added) {
+             spanRight.textContent = line + '\n';
+             spanRight.className = 'diff-added';
+
+             spanLeft.textContent = '\n';
+             spanLeft.className = 'diff-unchanged';
+
+             fragRight.appendChild(spanRight);
+             fragLeft.appendChild(spanLeft);
+           } else if (part.removed) {
+             spanLeft.textContent = line + '\n';
+             spanLeft.className = 'diff-removed';
+
+             spanRight.textContent = '\n';
+             spanRight.className = 'diff-unchanged';
+
+             fragLeft.appendChild(spanLeft);
+             fragRight.appendChild(spanRight);
+           } else {
+             spanLeft.textContent = line + '\n';
+             spanLeft.className = 'diff-unchanged';
+
+             spanRight.textContent = line + '\n';
+             spanRight.className = 'diff-unchanged';
+
+             fragLeft.appendChild(spanLeft);
+             fragRight.appendChild(spanRight);
+           }
+        });
+      });
+
+      const left = $('#diffLeft');
+      const right = $('#diffRight');
+      left.innerHTML = '';
+      right.innerHTML = '';
+      left.appendChild(fragLeft);
+      right.appendChild(fragRight);
+      $('#jsonDiffOutput').className = 'result diff-result grid-two success';
+    } catch (error) {
+      const left = $('#diffLeft');
+      const right = $('#diffRight');
+      left.innerHTML = '';
+      right.innerHTML = '';
+      left.textContent = error.message;
+      $('#jsonDiffOutput').className = 'result diff-result grid-two error';
     }
   });
 }
@@ -215,6 +318,43 @@ function initEncoders() {
   $('#decodeUrl').addEventListener('click', () => {
     try { setOutput('urlOutput', decodeURIComponent($('#urlInput').value), 'success'); }
     catch (error) { setOutput('urlOutput', 'Invalid URL encoded input.', 'error'); }
+  });
+
+  $('#escapeString').addEventListener('click', () => {
+    const input = $('#escapeInput').value;
+    const format = $('#escapeFormat').value;
+    let result = '';
+    try {
+      if (format === 'json') {
+        result = JSON.stringify(input).slice(1, -1);
+      } else if (format === 'html') {
+        result = escapeHtml(input);
+      } else if (format === 'url') {
+        result = encodeURIComponent(input);
+      }
+      setOutput('escapeOutput', result, 'success');
+    } catch (error) {
+      setOutput('escapeOutput', error.message, 'error');
+    }
+  });
+
+  $('#unescapeString').addEventListener('click', () => {
+    const input = $('#escapeInput').value;
+    const format = $('#escapeFormat').value;
+    let result = '';
+    try {
+      if (format === 'json') {
+        result = JSON.parse(`"${input}"`);
+      } else if (format === 'html') {
+        const doc = new DOMParser().parseFromString(input, 'text/html');
+        result = doc.documentElement.textContent;
+      } else if (format === 'url') {
+        result = decodeURIComponent(input);
+      }
+      setOutput('escapeOutput', result, 'success');
+    } catch (error) {
+      setOutput('escapeOutput', `Unescape failed: ${error.message}`, 'error');
+    }
   });
 }
 
@@ -575,6 +715,7 @@ function initAds() {
   }
 }
 
+initAutoResize();
 initToolTabs();
 initJsonTools();
 initGenerators();
