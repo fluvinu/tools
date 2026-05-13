@@ -98,29 +98,34 @@ function escapeHtml(value) {
   }[char]));
 }
 
-function activateTool(tool) {
+function activateTool(tool, shouldScroll = true) {
   const activeTab = $(`.tool-tab[data-tool="${tool}"]`);
-  if (!activeTab) return;
+  const activePanel = document.getElementById(tool);
+  if (!activeTab || !activePanel?.matches('[data-tool-panel]')) return;
 
-  // Update active state of tabs
-  $$('.tool-tab').forEach((item) => item.classList.toggle('active', item === activeTab));
-
-  // Highlight the panel
-  $$('[data-tool-panel]').forEach((panel) => {
-    if (panel.id === tool) {
-      // Scroll to panel
-      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-      // Optional: add a temporary highlight effect
-      const originalBorder = panel.style.borderColor;
-      panel.style.borderColor = 'var(--primary)';
-      panel.style.boxShadow = '0 0 0 2px rgba(37, 99, 235, 0.2)';
-      setTimeout(() => {
-        panel.style.borderColor = originalBorder;
-        panel.style.boxShadow = '';
-      }, 1500);
-    }
+  $$('.tool-tab').forEach((item) => {
+    const isActive = item === activeTab;
+    item.classList.toggle('active', isActive);
+    item.setAttribute('aria-selected', String(isActive));
   });
+
+  $$('[data-tool-panel]').forEach((panel) => {
+    const isActive = panel === activePanel;
+    panel.classList.toggle('active', isActive);
+    panel.hidden = !isActive;
+  });
+
+  if (!shouldScroll) return;
+
+  activePanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  const originalBorder = activePanel.style.borderColor;
+  activePanel.style.borderColor = 'var(--primary)';
+  activePanel.style.boxShadow = '0 0 0 2px rgba(37, 99, 235, 0.2)';
+  setTimeout(() => {
+    activePanel.style.borderColor = originalBorder;
+    activePanel.style.boxShadow = '';
+  }, 1500);
 }
 
 function initToolTabs() {
@@ -135,7 +140,8 @@ function initToolTabs() {
     });
   });
 
-  if (window.location.hash) activateTool(window.location.hash.slice(1));
+  const initialTool = window.location.hash ? window.location.hash.slice(1) : $('.tool-tab.active')?.dataset.tool;
+  if (initialTool) activateTool(initialTool, false);
 }
 
 function initJsonTools() {
@@ -313,13 +319,6 @@ function initQr() {
     output.appendChild(canvas);
     $('#downloadQr').href = canvas.toDataURL('image/png');
   });
-}
-
-function initAutoToolScroll() {
-  if (window.location.hash && window.location.hash !== '#top') return;
-  const heroTools = document.getElementById('hero-tools');
-  if (!heroTools) return;
-  window.requestAnimationFrame(() => heroTools.scrollIntoView({ behavior: 'smooth', block: 'center' }));
 }
 
 function initCalculators() {
@@ -576,7 +575,6 @@ function initAds() {
   }
 }
 
-initAutoToolScroll();
 initToolTabs();
 initJsonTools();
 initGenerators();
