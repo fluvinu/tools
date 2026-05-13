@@ -101,8 +101,26 @@ function escapeHtml(value) {
 function activateTool(tool) {
   const activeTab = $(`.tool-tab[data-tool="${tool}"]`);
   if (!activeTab) return;
+
+  // Update active state of tabs
   $$('.tool-tab').forEach((item) => item.classList.toggle('active', item === activeTab));
-  $$('[data-tool-panel]').forEach((panel) => panel.classList.toggle('active', panel.id === tool));
+
+  // Highlight the panel
+  $$('[data-tool-panel]').forEach((panel) => {
+    if (panel.id === tool) {
+      // Scroll to panel
+      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // Optional: add a temporary highlight effect
+      const originalBorder = panel.style.borderColor;
+      panel.style.borderColor = 'var(--primary)';
+      panel.style.boxShadow = '0 0 0 2px rgba(37, 99, 235, 0.2)';
+      setTimeout(() => {
+        panel.style.borderColor = originalBorder;
+        panel.style.boxShadow = '';
+      }, 1500);
+    }
+  });
 }
 
 function initToolTabs() {
@@ -438,6 +456,32 @@ function initImageConverter() {
   });
 }
 
+function initWordCounter() {
+  $('#countWords').addEventListener('click', () => {
+    const text = $('#wordCounterInput').value;
+    if (!text) {
+      setOutput('wordCounterOutput', 'Please enter some text to count.', 'error');
+      return;
+    }
+    const words = text.trim().split(/\s+/).filter(word => word.length > 0).length;
+    const characters = text.length;
+    const charactersNoSpaces = text.replace(/\s+/g, '').length;
+
+    setOutput('wordCounterOutput', [
+      `Words: ${words}`,
+      `Characters (with spaces): ${characters}`,
+      `Characters (no spaces): ${charactersNoSpaces}`
+    ].join('\n'), 'success');
+  });
+
+  // Optional: Auto-update as user types
+  $('#wordCounterInput').addEventListener('input', () => {
+      if ($('#wordCounterOutput').textContent !== '') {
+          $('#countWords').click();
+      }
+  });
+}
+
 function initPdfTools() {
   $('#inspectPdf').addEventListener('click', () => {
     const file = $('#pdfInput').files[0];
@@ -544,6 +588,7 @@ initQr();
 initCalculators();
 initImageConverter();
 initPdfTools();
+initWordCounter();
 initResultCopyButtons();
 initClearButtons();
 initAds();
