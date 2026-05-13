@@ -117,6 +117,11 @@ function activateTool(tool, shouldScroll = true) {
 
   if (!shouldScroll) return;
 
+  const navContainer = $('.tool-nav-container');
+  if (navContainer) {
+    navContainer.classList.add('collapsed');
+  }
+
   activePanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   const originalBorder = activePanel.style.borderColor;
