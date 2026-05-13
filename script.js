@@ -62,14 +62,62 @@ function formatDateDetails(date) {
   ].join('\n');
 }
 
+
+function formatCurrency(value) {
+  return new Intl.NumberFormat(undefined, { maximumFractionDigits: 2 }).format(value);
+}
+
+function getNumber(id) {
+  const value = document.getElementById(id).value.trim();
+  return value === '' ? NaN : Number(value);
+}
+
+function calculateAgeParts(start, end) {
+  let years = end.getFullYear() - start.getFullYear();
+  let months = end.getMonth() - start.getMonth();
+  let days = end.getDate() - start.getDate();
+
+  if (days < 0) {
+    months -= 1;
+    days += new Date(end.getFullYear(), end.getMonth(), 0).getDate();
+  }
+  if (months < 0) {
+    years -= 1;
+    months += 12;
+  }
+  return { years, months, days };
+}
+
+function escapeHtml(value) {
+  return value.replace(/[&<>"']/g, (char) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  }[char]));
+}
+
+function activateTool(tool) {
+  const activeTab = $(`.tool-tab[data-tool="${tool}"]`);
+  if (!activeTab) return;
+  $$('.tool-tab').forEach((item) => item.classList.toggle('active', item === activeTab));
+  $$('[data-tool-panel]').forEach((panel) => panel.classList.toggle('active', panel.id === tool));
+}
+
 function initToolTabs() {
   $$('.tool-tab').forEach((tab) => {
-    tab.addEventListener('click', () => {
-      const tool = tab.dataset.tool;
-      $$('.tool-tab').forEach((item) => item.classList.toggle('active', item === tab));
-      $$('[data-tool-panel]').forEach((panel) => panel.classList.toggle('active', panel.id === tool));
+    tab.addEventListener('click', () => activateTool(tab.dataset.tool));
+  });
+
+  $$('a[href^="#"]').forEach((link) => {
+    link.addEventListener('click', () => {
+      const tool = link.getAttribute('href').slice(1);
+      activateTool(tool);
     });
   });
+
+  if (window.location.hash) activateTool(window.location.hash.slice(1));
 }
 
 function initJsonTools() {
@@ -249,6 +297,221 @@ function initQr() {
   });
 }
 
+function initAutoToolScroll() {
+  if (window.location.hash && window.location.hash !== '#top') return;
+  const heroTools = document.getElementById('hero-tools');
+  if (!heroTools) return;
+  window.requestAnimationFrame(() => heroTools.scrollIntoView({ behavior: 'smooth', block: 'center' }));
+}
+
+function initCalculators() {
+  $('#calculateAge').addEventListener('click', () => {
+    const birthValue = $('#birthDate').value;
+    const targetValue = $('#ageOnDate').value;
+    if (!birthValue) {
+      setOutput('ageOutput', 'Choose a date of birth.', 'error');
+      return;
+    }
+
+    const birthDate = new Date(`${birthValue}T00:00:00`);
+    const targetDate = targetValue ? new Date(`${targetValue}T00:00:00`) : new Date();
+    if (birthDate > targetDate) {
+      setOutput('ageOutput', 'Date of birth must be before the target date.', 'error');
+      return;
+    }
+
+    const parts = calculateAgeParts(birthDate, targetDate);
+    const totalDays = Math.floor((targetDate - birthDate) / 86400000);
+    setOutput('ageOutput', [
+      `Age: ${parts.years} years, ${parts.months} months, ${parts.days} days`,
+      `Total days: ${formatCurrency(totalDays)}`,
+      `As of: ${targetDate.toDateString()}`,
+    ].join('\n'), 'success');
+  });
+
+  $('#calculatePercentage').addEventListener('click', () => {
+    const value = getNumber('percentageValue');
+    const base = getNumber('percentageBase');
+    const rate = getNumber('percentageRate');
+    const newValue = getNumber('percentageNewValue');
+    const lines = [];
+
+    if (Number.isFinite(value) && Number.isFinite(base) && base !== 0) {
+      lines.push(`${value} is ${(value / base * 100).toFixed(2)}% of ${base}.`);
+    }
+    if (Number.isFinite(rate) && Number.isFinite(base)) {
+      lines.push(`${rate}% of ${base} is ${(base * rate / 100).toFixed(2)}.`);
+    }
+    if (Number.isFinite(value) && Number.isFinite(newValue) && value !== 0) {
+      const change = (newValue - value) / Math.abs(value) * 100;
+      lines.push(`Change from ${value} to ${newValue}: ${change.toFixed(2)}%.`);
+    }
+
+    setOutput('percentageOutput', lines.length ? lines.join('\n') : 'Enter values to calculate percentages.', lines.length ? 'success' : 'error');
+  });
+
+  $('#calculateEmi').addEventListener('click', () => {
+    const principal = getNumber('loanAmount');
+    const annualRate = getNumber('annualInterest');
+    const tenure = getNumber('loanTenure');
+    if (!principal || !tenure || principal <= 0 || tenure <= 0 || annualRate < 0) {
+      setOutput('emiOutput', 'Enter a positive loan amount, tenure, and valid interest rate.', 'error');
+      return;
+    }
+
+    const months = $('#tenureUnit').value === 'years' ? tenure * 12 : tenure;
+    const monthlyRate = annualRate / 12 / 100;
+    const emi = monthlyRate === 0
+      ? principal / months
+      : principal * monthlyRate * ((1 + monthlyRate) ** months) / (((1 + monthlyRate) ** months) - 1);
+    const totalPayment = emi * months;
+    const totalInterest = totalPayment - principal;
+
+    setOutput('emiOutput', [
+      `Monthly EMI: ${formatCurrency(emi)}`,
+      `Total interest: ${formatCurrency(totalInterest)}`,
+      `Total payable: ${formatCurrency(totalPayment)}`,
+      `Tenure: ${months} months`,
+    ].join('\n'), 'success');
+  });
+
+  $('#calculateCgpa').addEventListener('click', () => {
+    const rows = $('#cgpaInput').value.trim().split(/\n+/).map((row) => row.split(/[\s,]+/).map(Number));
+    let totalCredits = 0;
+    let weightedPoints = 0;
+    const plainGrades = [];
+
+    rows.forEach(([first, second]) => {
+      if (Number.isFinite(first) && Number.isFinite(second)) {
+        totalCredits += first;
+        weightedPoints += first * second;
+      } else if (Number.isFinite(first)) {
+        plainGrades.push(first);
+      }
+    });
+
+    if (totalCredits > 0) {
+      setOutput('cgpaOutput', `Weighted CGPA: ${(weightedPoints / totalCredits).toFixed(2)}\nTotal credits: ${totalCredits}`, 'success');
+      return;
+    }
+    if (plainGrades.length) {
+      const average = plainGrades.reduce((sum, grade) => sum + grade, 0) / plainGrades.length;
+      setOutput('cgpaOutput', `Average CGPA: ${average.toFixed(2)}\nEntries counted: ${plainGrades.length}`, 'success');
+      return;
+    }
+    setOutput('cgpaOutput', 'Enter either one grade per line or credit, grade pairs.', 'error');
+  });
+}
+
+function initImageConverter() {
+  $('#convertImage').addEventListener('click', () => {
+    const file = $('#imageInput').files[0];
+    const output = $('#imageOutput');
+    output.innerHTML = '';
+    if (!file) {
+      output.textContent = 'Choose an image file first.';
+      return;
+    }
+
+    const image = new Image();
+    image.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = image.naturalWidth;
+      canvas.height = image.naturalHeight;
+      canvas.getContext('2d').drawImage(image, 0, 0);
+      const format = $('#imageFormat').value;
+      const quality = clampNumber($('#imageQuality').value, 10, 100) / 100;
+      const dataUrl = canvas.toDataURL(format, quality);
+      const extension = format.split('/')[1].replace('jpeg', 'jpg');
+      const preview = document.createElement('img');
+      preview.alt = 'Converted image preview';
+      preview.src = dataUrl;
+      $('#downloadImage').href = dataUrl;
+      $('#downloadImage').download = `converted-image.${extension}`;
+      output.appendChild(preview);
+      URL.revokeObjectURL(image.src);
+    };
+    image.onerror = () => {
+      output.textContent = 'This image could not be loaded by the browser.';
+    };
+    image.src = URL.createObjectURL(file);
+  });
+}
+
+function initPdfTools() {
+  $('#inspectPdf').addEventListener('click', () => {
+    const file = $('#pdfInput').files[0];
+    if (!file) {
+      setOutput('pdfOutput', 'Choose a PDF file first.', 'error');
+      return;
+    }
+    setOutput('pdfOutput', [
+      `File name: ${file.name}`,
+      `File size: ${formatCurrency(file.size / 1024)} KB`,
+      `Type: ${file.type || 'application/pdf'}`,
+      `Last modified: ${new Date(file.lastModified).toLocaleString()}`,
+    ].join('\n'), 'success');
+  });
+
+  $('#printPdfText').addEventListener('click', () => {
+    const text = $('#pdfText').value.trim();
+    if (!text) {
+      setOutput('pdfOutput', 'Paste text before creating a print-ready PDF.', 'error');
+      return;
+    }
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) {
+      setOutput('pdfOutput', 'Pop-up blocked. Allow pop-ups to open the print dialog.', 'error');
+      return;
+    }
+    printWindow.document.write(`<!doctype html><title>Print to PDF</title><style>body{font:16px/1.6 system-ui;margin:40px;white-space:pre-wrap;color:#111827;}</style><body>${escapeHtml(text)}</body>`);
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+    setOutput('pdfOutput', 'Print dialog opened. Choose “Save as PDF” in your browser.', 'success');
+  });
+}
+
+function initResultCopyButtons() {
+  $$('.result').forEach((result) => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'result-wrap';
+
+    const copyButton = document.createElement('button');
+    copyButton.type = 'button';
+    copyButton.className = 'result-copy';
+    copyButton.textContent = 'Copy result';
+    copyButton.setAttribute('aria-label', `Copy ${result.id || 'tool'} result`);
+
+    result.parentNode.insertBefore(wrapper, result);
+    wrapper.appendChild(copyButton);
+    wrapper.appendChild(result);
+
+    copyButton.addEventListener('click', async () => {
+      const text = result.textContent.trim();
+      if (!text) {
+        copyButton.textContent = 'Nothing to copy';
+        setTimeout(() => { copyButton.textContent = 'Copy result'; }, 1400);
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(text);
+        copyButton.textContent = 'Copied!';
+      } catch (error) {
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNodeContents(result);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        copyButton.textContent = 'Select + copy';
+      }
+
+      setTimeout(() => { copyButton.textContent = 'Copy result'; }, 1400);
+    });
+  });
+}
+
 function initClearButtons() {
   $$('[data-clear]').forEach((button) => {
     button.addEventListener('click', () => {
@@ -269,6 +532,7 @@ function initAds() {
   }
 }
 
+initAutoToolScroll();
 initToolTabs();
 initJsonTools();
 initGenerators();
@@ -277,5 +541,9 @@ initJwt();
 initTimestamp();
 initRegex();
 initQr();
+initCalculators();
+initImageConverter();
+initPdfTools();
+initResultCopyButtons();
 initClearButtons();
 initAds();
