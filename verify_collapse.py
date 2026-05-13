@@ -9,16 +9,19 @@ async def main():
 
         # Select a tool (JSON diff)
         await page.click("button[data-tool='json-diff']")
+
+        # Move mouse away to let it collapse
+        await page.hover("h2#tools-title")
         await page.wait_for_timeout(500)
         await page.screenshot(path="collapsed.png")
 
         # Hover over hover-zone
-        await page.hover(".hover-zone")
+        await page.hover(".hover-zone", position={"x": 10, "y": 100})
         await page.wait_for_timeout(500)
         await page.screenshot(path="hovered_zone.png")
 
         # Hover away
-        await page.hover(".site-header")
+        await page.hover("h2#tools-title")
         await page.wait_for_timeout(500)
         await page.screenshot(path="unhovered_zone.png")
 
