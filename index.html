@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="A fast all-in-one browser toolkit with JSON, encoding, security, timestamp, regex, and QR utilities." />
+    <meta name="description" content="A fast all-in-one browser toolkit with developer, calculator, image, and PDF utilities." />
     <meta name="google-adsense-account" content="ca-pub-1860593061024704">
-    <title>Toolbox Hub - 10 Developer Tools in One</title>
+    <title>Toolbox Hub - 16 Free Browser Tools in One</title>
     <link rel="stylesheet" href="styles.css" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1860593061024704" crossorigin="anonymous"></script>
   </head>
@@ -21,13 +21,21 @@
 
       <section id="top" class="hero-content">
         <p class="eyebrow">All tools in one place</p>
-        <h1>Everyday developer utilities in one clean website.</h1>
+        <h1>Free calculators, converters, and developer utilities in one clean website.</h1>
         <p class="hero-copy">
-          Validate JSON, generate UUIDs and passwords, decode JWTs, test regexes, create QR codes, and more — all from your browser.
+          Open the tools instantly when the page loads. Calculate age, percentages, EMIs, and CGPA; convert images; prep PDFs; and still use all the developer utilities from your browser.
         </p>
         <div class="hero-actions">
           <a class="button primary" href="#tools">Start using tools</a>
-          <a class="button secondary" href="#ad-settings">Ad setup</a>
+          <a class="button secondary" href="#age-calculator">Try calculators</a>
+        </div>
+        <div id="hero-tools" class="hero-tool-preview" aria-label="Available tools preview">
+          <span>Age calculator</span>
+          <span>Percentage calculator</span>
+          <span>EMI calculator</span>
+          <span>CGPA calculator</span>
+          <span>Image converter</span>
+          <span>PDF tools</span>
         </div>
       </section>
     </header>
@@ -52,7 +60,7 @@
 
       <section id="tools" class="tools-section" aria-labelledby="tools-title">
         <div class="section-heading">
-          <p class="eyebrow">10 tools included</p>
+          <p class="eyebrow">16 tools included</p>
           <h2 id="tools-title">Choose a utility</h2>
         </div>
 
@@ -68,6 +76,12 @@
             <button class="tool-tab" data-tool="timestamp-converter">Timestamp converter</button>
             <button class="tool-tab" data-tool="regex-tester">Regex tester</button>
             <button class="tool-tab" data-tool="qr-generator">QR code generator</button>
+            <button class="tool-tab" data-tool="age-calculator">Age calculator</button>
+            <button class="tool-tab" data-tool="percentage-calculator">Percentage calculator</button>
+            <button class="tool-tab" data-tool="emi-calculator">EMI calculator</button>
+            <button class="tool-tab" data-tool="cgpa-calculator">CGPA calculator</button>
+            <button class="tool-tab" data-tool="image-converter">Image converter</button>
+            <button class="tool-tab" data-tool="pdf-tools">PDF tools</button>
           </aside>
 
           <div class="tool-panels">
@@ -159,6 +173,73 @@
               </div>
               <div class="button-row"><button id="generateQr" class="button primary">Generate QR</button><a id="downloadQr" class="button secondary" download="qr-code.png" href="#">Download PNG</a></div>
               <div id="qrOutput" class="qr-output" aria-live="polite"></div>
+            </article>
+
+            <article class="tool-panel" id="age-calculator" data-tool-panel>
+              <div class="panel-header"><h3>Age calculator</h3><p>Calculate exact age from a date of birth to today or a custom date.</p></div>
+              <div class="grid-two">
+                <label>Date of birth<input id="birthDate" type="date" /></label>
+                <label>Calculate age on<input id="ageOnDate" type="date" /></label>
+              </div>
+              <div class="button-row"><button id="calculateAge" class="button primary">Calculate age</button><button class="button ghost" data-clear="birthDate,ageOnDate,ageOutput">Clear</button></div>
+              <pre id="ageOutput" class="result"></pre>
+            </article>
+
+            <article class="tool-panel" id="percentage-calculator" data-tool-panel>
+              <div class="panel-header"><h3>Percentage calculator</h3><p>Find percentages, percentage change, and part/whole values quickly.</p></div>
+              <div class="grid-two">
+                <label>Value<input id="percentageValue" type="number" step="any" placeholder="20" /></label>
+                <label>Total / base<input id="percentageBase" type="number" step="any" placeholder="200" /></label>
+              </div>
+              <div class="grid-two">
+                <label>Percentage rate<input id="percentageRate" type="number" step="any" placeholder="15" /></label>
+                <label>New value<input id="percentageNewValue" type="number" step="any" placeholder="240" /></label>
+              </div>
+              <div class="button-row"><button id="calculatePercentage" class="button primary">Calculate</button><button class="button ghost" data-clear="percentageValue,percentageBase,percentageRate,percentageNewValue,percentageOutput">Clear</button></div>
+              <pre id="percentageOutput" class="result"></pre>
+            </article>
+
+            <article class="tool-panel" id="emi-calculator" data-tool-panel>
+              <div class="panel-header"><h3>EMI calculator</h3><p>Estimate monthly loan payments with interest and total payable amounts.</p></div>
+              <div class="grid-two">
+                <label>Loan amount<input id="loanAmount" type="number" min="0" step="any" placeholder="500000" /></label>
+                <label>Annual interest rate (%)<input id="annualInterest" type="number" min="0" step="any" placeholder="8.5" /></label>
+              </div>
+              <div class="grid-two">
+                <label>Tenure<input id="loanTenure" type="number" min="1" step="1" placeholder="5" /></label>
+                <label>Tenure unit<select id="tenureUnit"><option value="years" selected>Years</option><option value="months">Months</option></select></label>
+              </div>
+              <div class="button-row"><button id="calculateEmi" class="button primary">Calculate EMI</button><button class="button ghost" data-clear="loanAmount,annualInterest,loanTenure,emiOutput">Clear</button></div>
+              <pre id="emiOutput" class="result"></pre>
+            </article>
+
+            <article class="tool-panel" id="cgpa-calculator" data-tool-panel>
+              <div class="panel-header"><h3>CGPA calculator</h3><p>Average semester GPAs or weighted credit/grade rows.</p></div>
+              <textarea id="cgpaInput" placeholder="One row per subject: credits, grade points
+4, 9
+3, 8
+2, 10"></textarea>
+              <div class="button-row"><button id="calculateCgpa" class="button primary">Calculate CGPA</button><button class="button ghost" data-clear="cgpaInput,cgpaOutput">Clear</button></div>
+              <pre id="cgpaOutput" class="result"></pre>
+            </article>
+
+            <article class="tool-panel" id="image-converter" data-tool-panel>
+              <div class="panel-header"><h3>Image converter</h3><p>Convert common image files to PNG, JPEG, or WebP directly in the browser.</p></div>
+              <label>Choose image<input id="imageInput" type="file" accept="image/*" /></label>
+              <div class="grid-two">
+                <label>Output format<select id="imageFormat"><option value="image/png">PNG</option><option value="image/jpeg">JPEG</option><option value="image/webp">WebP</option></select></label>
+                <label>Quality (JPEG/WebP)<input id="imageQuality" type="number" min="10" max="100" value="92" /></label>
+              </div>
+              <div class="button-row"><button id="convertImage" class="button primary">Convert image</button><a id="downloadImage" class="button secondary" download="converted-image.png" href="#">Download converted file</a></div>
+              <div id="imageOutput" class="qr-output" aria-live="polite">Converted image preview will appear here.</div>
+            </article>
+
+            <article class="tool-panel" id="pdf-tools" data-tool-panel>
+              <div class="panel-header"><h3>PDF tools</h3><p>Inspect PDF file details and create a clean print-to-PDF document from pasted text.</p></div>
+              <label>Choose PDF<input id="pdfInput" type="file" accept="application/pdf" /></label>
+              <textarea id="pdfText" placeholder="Paste notes, invoice text, or any content you want to print/save as PDF."></textarea>
+              <div class="button-row"><button id="inspectPdf" class="button primary">Inspect PDF</button><button id="printPdfText" class="button secondary">Print text as PDF</button><button class="button ghost" data-clear="pdfText,pdfOutput">Clear</button></div>
+              <pre id="pdfOutput" class="result"></pre>
             </article>
           </div>
         </div>
