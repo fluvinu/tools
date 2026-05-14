@@ -134,6 +134,13 @@ function activateTool(tool, shouldScroll = true) {
 }
 
 function initToolTabs() {
+  const toggleBtn = $('#toggleSidebarBtn');
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      $('.tool-nav-container')?.classList.toggle('collapsed');
+    });
+  }
+
   $$('.tool-tab').forEach((tab) => {
     tab.addEventListener('click', () => activateTool(tab.dataset.tool));
   });
