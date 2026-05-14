@@ -15,13 +15,13 @@ async def main():
         await page.wait_for_timeout(500)
         await page.screenshot(path="collapsed.png")
 
-        # Hover over hover-zone
-        await page.hover(".hover-zone", position={"x": 10, "y": 100})
+        # Click the toggle sidebar button to show sidebar
+        await page.click("#toggleSidebarBtn")
         await page.wait_for_timeout(500)
-        await page.screenshot(path="hovered_zone.png")
+        await page.screenshot(path="hovered_zone.png") # keeping the original filename for the test output
 
-        # Hover away
-        await page.hover("h2#tools-title")
+        # Click the toggle sidebar button again to hide sidebar
+        await page.click("#toggleSidebarBtn")
         await page.wait_for_timeout(500)
         await page.screenshot(path="unhovered_zone.png")
 
