@@ -8,7 +8,7 @@ async def main():
         await page.goto("http://localhost:3000")
 
         # Select a tool (JSON diff)
-        await page.click("button[data-tool='json-diff']")
+        await page.click("a[data-tool='json-diff']")
 
         # Move mouse away to let it collapse
         await page.hover("h2#tools-title")

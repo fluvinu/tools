@@ -3,15 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="A fast all-in-one browser toolkit with developer, calculator, image, and PDF utilities." />
+    <meta name="description" content="Test your typing speed and accuracy in a full-screen experience." />
     <meta name="keywords" content="developer tools, json validator, json formatter, json diff, string escape, base64 encoder, uuid generator, online tools, utility toolkit, free browser tools" />
-    <meta property="og:title" content="Toolbox Hub - Free Browser Tools in One" />
-    <meta property="og:description" content="A fast all-in-one browser toolkit with developer, calculator, image, and PDF utilities." />
+    <meta property="og:title" content="Typing speed test - Toolbox Hub" />
+    <meta property="og:description" content="Test your typing speed and accuracy in a full-screen experience." />
     <meta property="og:type" content="website" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
     <meta name="f49e41886bd485f5d223692bb75a3fa93299b921" content="f49e41886bd485f5d223692bb75a3fa93299b921" />
     <meta name="google-adsense-account" content="ca-pub-1860593061024704">
-    <title>Toolbox Hub - Free Browser Tools in One</title>
+    <title>Typing speed test - Toolbox Hub</title>
     <link rel="stylesheet" href="/styles.css" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1860593061024704" crossorigin="anonymous"></script>
   </head>
@@ -36,11 +36,11 @@
             data-ad-format="auto"
             data-full-width-responsive="true">
           </ins>
-        
+
           <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
           </script>
-        
+
           <p class="ad-fallback">Loading advertisement...</p>
         </aside>
 
@@ -82,7 +82,7 @@
                   <a class="tool-tab" href="/timestamp-converter/" data-tool="timestamp-converter">Timestamp converter</a>
                   <a class="tool-tab" href="/regex-tester/" data-tool="regex-tester">Regex tester</a>
                   <a class="tool-tab" href="/word-counter/" data-tool="word-counter">Word & Character Counter</a>
-                  <a class="tool-tab" href="/typing-test/" data-tool="typing-test">Typing speed test</a>
+                  <a class="tool-tab active" href="/typing-test/" data-tool="typing-test">Typing speed test</a>
                 </div>
               </div>
               <div class="tool-category">
@@ -105,11 +105,18 @@
           </aside>
 
           <div class="tool-panels">
-
-            <article class="tool-panel active">
-              <div class="panel-header"><h3>Welcome to Toolbox Hub</h3><p>Select a tool from the sidebar to get started.</p></div>
+<article class="tool-panel active" id="typing-test" data-tool-panel>
+              <div class="panel-header"><h3>Typing speed test</h3><p>Test your typing speed and accuracy in a full-screen experience.</p></div>
+              <div class="typing-stats">
+                <div class="stat-box"><strong>Time:</strong> <span id="typingTime">60</span>s</div>
+                <div class="stat-box"><strong>WPM:</strong> <span id="typingWpm">0</span></div>
+                <div class="stat-box"><strong>Accuracy:</strong> <span id="typingAccuracy">100</span>%</div>
+                <div class="stat-box"><strong>Errors:</strong> <span id="typingErrors">0</span></div>
+              </div>
+              <div id="typingTextDisplay" class="typing-text-display"></div>
+              <textarea id="typingInput" spellcheck="false" placeholder="Start typing here..."></textarea>
+              <div class="button-row"><button id="restartTyping" class="button primary">Restart test</button><button id="fullscreenTyping" class="button secondary">Full screen</button></div>
             </article>
-
           </div>
         </div>
       </section>
@@ -130,16 +137,16 @@
               </script>
 
           </div>
-          
+
           <span>Advertisement</span>
-        
+
           <ins class="adsbygoogle"
             style="display:block"
             data-ad-client="ca-pub-1860593061024704"
             data-ad-slot="6769060696"
             data-ad-format="rectangle">
           </ins>
-        
+
           <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
           </script>
@@ -159,7 +166,7 @@
     <div>
       <script src="https://5gvci.com/act/files/tag.min.js?z=11004419" data-cfasync="false" async></script>
       </div>
-    
+
     <footer>
       <p>Toolbox Hub runs client-side in your browser. JWT decoding does not verify signatures.</p>
     </footer>
