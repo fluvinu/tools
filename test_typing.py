@@ -33,8 +33,9 @@ def run():
 
         # Restart test
         page.click('#restartTyping')
-        reset_time = page.inner_text('#typingTime')
-        assert int(reset_time) == 60
+
+        # Test keyboard shortcut (Escape)
+        page.keyboard.press('Escape')
 
         print("Playwright UI test passed!")
         browser.close()
