@@ -1,0 +1,13 @@
+<article class="tool-panel" id="percentage-calculator" data-tool-panel>
+              <div class="panel-header"><h3>Percentage calculator</h3><p>Find percentages, percentage change, and part/whole values quickly.</p></div>
+              <div class="grid-two">
+                <label>Value<input id="percentageValue" type="number" step="any" placeholder="20" /></label>
+                <label>Total / base<input id="percentageBase" type="number" step="any" placeholder="200" /></label>
+              </div>
+              <div class="grid-two">
+                <label>Percentage rate<input id="percentageRate" type="number" step="any" placeholder="15" /></label>
+                <label>New value<input id="percentageNewValue" type="number" step="any" placeholder="240" /></label>
+              </div>
+              <div class="button-row"><button id="calculatePercentage" class="button primary">Calculate</button><button class="button ghost" data-clear="percentageValue,percentageBase,percentageRate,percentageNewValue,percentageOutput">Clear</button></div>
+              <pre id="percentageOutput" class="result"></pre>
+            </article>

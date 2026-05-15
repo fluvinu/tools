@@ -10,9 +10,9 @@ async def main():
         # Select a tool (JSON diff)
         await page.click("a[data-tool='json-diff']")
 
-        # Move mouse away to let it collapse
-        await page.hover("h2#tools-title")
-        await page.wait_for_timeout(500)
+        # Since it navigates, wait for the new page to load
+        await page.wait_for_timeout(1000)
+        # Verify it auto-collapses
         await page.screenshot(path="collapsed.png")
 
         # Click the toggle sidebar button to show sidebar

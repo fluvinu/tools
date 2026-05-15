@@ -1,0 +1,19 @@
+<article class="tool-panel" id="string-escape" data-tool-panel>
+              <div class="panel-header"><h3>String escape</h3><p>Escape or unescape strings for JSON, HTML, or URLs.</p></div>
+              <textarea id="escapeInput" placeholder='Type text like <script> or "hello"'></textarea>
+              <div class="grid-two">
+                <label>Format
+                  <select id="escapeFormat">
+                    <option value="json">JSON</option>
+                    <option value="html">HTML</option>
+                    <option value="url">URL</option>
+                  </select>
+                </label>
+              </div>
+              <div class="button-row">
+                <button id="escapeString" class="button primary">Escape</button>
+                <button id="unescapeString" class="button secondary">Unescape</button>
+                <button class="button ghost" data-clear="escapeInput,escapeOutput">Clear</button>
+              </div>
+              <pre id="escapeOutput" class="result"></pre>
+            </article>
