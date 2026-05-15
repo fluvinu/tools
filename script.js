@@ -754,8 +754,14 @@ function initTypingTest() {
   let targetText = "";
 
   function loadNewParagraph() {
-    const randomIndex = Math.floor(Math.random() * paragraphs.length);
+    let randomIndex;
+    do {
+      randomIndex = Math.floor(Math.random() * paragraphs.length);
+    } while (paragraphs[randomIndex] === targetText && paragraphs.length > 1);
     targetText = paragraphs[randomIndex];
+
+    maxTime = Math.ceil(targetText.length * 0.3);
+
     textDisplay.innerHTML = '';
     targetText.split('').forEach(char => {
       let span = document.createElement('span');
@@ -840,6 +846,12 @@ function initTypingTest() {
 
   restartBtn.addEventListener('click', resetTest);
 
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && typingPanel.classList.contains('active')) {
+      resetTest();
+    }
+  });
+
   fullscreenBtn.addEventListener('click', () => {
     if (!document.fullscreenElement) {
       if (typingPanel.requestFullscreen) {
@@ -862,7 +874,7 @@ function initTypingTest() {
 
   // Also hook into activating tool to maybe reset test, though manual click is fine.
   // Initial load
-  loadNewParagraph();
+  resetTest();
 }
 
 initAutoResize();
