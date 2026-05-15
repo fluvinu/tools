@@ -29,7 +29,7 @@ def run():
 
         # Test full screen button
         # (It might not work fully in headless but we can ensure the button is clickable)
-        page.click('#fullscreenTyping')
+        page.click('.fs-toggle-btn')
 
         # Restart test
         page.click('#restartTyping')

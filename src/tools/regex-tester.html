@@ -1,0 +1,10 @@
+<article class="tool-panel" id="regex-tester" data-tool-panel>
+              <div class="panel-header"><h3>Regex tester</h3><p>Test JavaScript regular expressions and inspect matches.</p></div>
+              <div class="grid-two">
+                <label>Pattern<input id="regexPattern" type="text" placeholder="\\btool\\b" /></label>
+                <label>Flags<input id="regexFlags" type="text" value="gi" placeholder="gimuy" /></label>
+              </div>
+              <textarea id="regexText" placeholder="Paste text to test against your regex"></textarea>
+              <div class="button-row"><button id="testRegex" class="button primary">Test regex</button><button class="button ghost" data-clear="regexPattern,regexFlags,regexText,regexOutput">Clear</button></div>
+              <pre id="regexOutput" class="result"></pre>
+            </article>

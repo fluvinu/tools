@@ -109,6 +109,15 @@ function initToolTabs() {
   // The sidebar tools are now <a> tags that will navigate, but let's hide the sidebar
   // if screen is small upon clicking. Navigation will refresh the page anyway.
 
+  // Collapse sidebar by default if we are on a specific tool page (not the landing page)
+  const isLandingPage = window.location.pathname === '/' || window.location.pathname.endsWith('/index.html') && window.location.pathname.split('/').length <= 2;
+  const isToolPage = window.location.pathname.length > 1 && !isLandingPage;
+  // Let's use a simpler check: if there's an active tab, it's a tool page
+  const activeTab = $('.tool-tab.active');
+  if (activeTab) {
+    $('.tool-nav-container')?.classList.add('collapsed');
+  }
+
   const searchInput = $('#toolSearch');
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
@@ -697,7 +706,6 @@ function initTypingTest() {
   const accuracyDisplay = $('#typingAccuracy');
   const errorsDisplay = $('#typingErrors');
   const restartBtn = $('#restartTyping');
-  const fullscreenBtn = $('#fullscreenTyping');
   const typingPanel = $('#typing-test');
 
   let timer;
@@ -807,29 +815,50 @@ function initTypingTest() {
     }
   });
 
-  fullscreenBtn?.addEventListener('click', () => {
-    if (!document.fullscreenElement) {
-      if (typingPanel.requestFullscreen) {
-        typingPanel.requestFullscreen();
-      } else if (typingPanel.webkitRequestFullscreen) { /* Safari */
-        typingPanel.webkitRequestFullscreen();
-      } else if (typingPanel.msRequestFullscreen) { /* IE11 */
-        typingPanel.msRequestFullscreen();
-      }
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.webkitExitFullscreen) { /* Safari */
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) { /* IE11 */
-        document.msExitFullscreen();
-      }
-    }
-  });
-
   // Also hook into activating tool to maybe reset test, though manual click is fine.
   // Initial load
   resetTest();
+}
+
+function initFullscreen() {
+  $$('.tool-panel').forEach(panel => {
+    const header = panel.querySelector('.panel-header');
+    if (!header) return;
+
+    const btn = document.createElement('button');
+    btn.className = 'fs-toggle-btn';
+    btn.textContent = 'Full screen';
+    btn.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        if (panel.requestFullscreen) {
+          panel.requestFullscreen();
+        } else if (panel.webkitRequestFullscreen) {
+          panel.webkitRequestFullscreen();
+        } else if (panel.msRequestFullscreen) {
+          panel.msRequestFullscreen();
+        }
+        btn.textContent = 'Exit full screen';
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }
+        btn.textContent = 'Full screen';
+      }
+    });
+
+    // Update button text if exit happens via Esc key
+    document.addEventListener('fullscreenchange', () => {
+      if (!document.fullscreenElement) {
+        btn.textContent = 'Full screen';
+      }
+    });
+
+    header.appendChild(btn);
+  });
 }
 
 initAutoResize();
@@ -846,6 +875,7 @@ initImageConverter();
 initPdfTools();
 initWordCounter();
 initTypingTest();
+initFullscreen();
 initResultCopyButtons();
 initClearButtons();
 initAds();

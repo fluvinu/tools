@@ -2,7 +2,7 @@ import re
 import os
 import shutil
 
-# Read original index.html
+# Read original index.html just to extract the baseline sidebar once for generation
 with open("index.html", "r") as f:
     original_html = f.read()
 
@@ -11,8 +11,6 @@ sidebar_match = re.search(r'<div class="tool-nav">(.*?)</div>\s*</aside>', origi
 sidebar = sidebar_match.group(1).strip() if sidebar_match else ""
 
 # Modify sidebar: replace <button> tabs with <a> links pointing to /{tool_id}/
-# From: <button class="tool-tab active" data-tool="json-validator">JSON validator</button>
-# To: <a class="tool-tab" href="/json-validator/" data-tool="json-validator">JSON validator</a>
 def replace_button_with_link(match):
     classes = match.group(1).replace('active', '').strip() # Remove active class by default
     tool_id = match.group(2)
@@ -29,17 +27,17 @@ sidebar = re.sub(r'<button class="([^"]*)" data-tool="([^"]+)">([^<]+)</button>'
 with open("template.html", "r") as f:
     template = f.read()
 
-# Extract panels
-panels = re.findall(r'<article class="tool-panel[^>]*id="([^"]+)"[^>]*data-tool-panel>.*?</article>', original_html, re.DOTALL)
+# Read all tools from src/tools/
+tools_dir = "src/tools"
+tool_files = [f for f in os.listdir(tools_dir) if f.endswith(".html")]
 
-print(f"Found {len(panels)} panels to process.")
+print(f"Found {len(tool_files)} panels in src/tools to process.")
 
 # Create main landing page (index.html)
 landing_page = template.replace('{{ title }}', 'Toolbox Hub - Free Browser Tools in One')
 landing_page = landing_page.replace('{{ description }}', 'A fast all-in-one browser toolkit with developer, calculator, image, and PDF utilities.')
 landing_page = landing_page.replace('{{ sidebar }}', sidebar)
 
-# For the landing page, we want a placeholder or just an empty tool_panels area
 landing_placeholder = """
             <article class="tool-panel active">
               <div class="panel-header"><h3>Welcome to Toolbox Hub</h3><p>Select a tool from the sidebar to get started.</p></div>
@@ -51,14 +49,12 @@ with open("index.html.new", "w") as f:
     f.write(landing_page)
 
 # Create each tool page
-for tool_id in panels:
-    # Find full article content for this panel
-    panel_match = re.search(rf'(<article class="tool-panel[^>]*id="{tool_id}"[^>]*data-tool-panel>.*?</article>)', original_html, re.DOTALL)
-    if not panel_match:
-        print(f"Could not find content for panel {tool_id}")
-        continue
+for tool_file in tool_files:
+    tool_id = tool_file.replace(".html", "")
 
-    panel_html = panel_match.group(1)
+    with open(os.path.join(tools_dir, tool_file), "r") as f:
+        panel_html = f.read()
+
     # Ensure it is active
     panel_html = panel_html.replace('class="tool-panel"', 'class="tool-panel active"')
 
@@ -70,7 +66,6 @@ for tool_id in panels:
     description = desc_match.group(1) if desc_match else f"Free online {title.lower()} tool."
 
     # Customize sidebar for this specific page (set active class)
-    # The existing tag looks like: <a class="tool-tab" href="/tool_id/" data-tool="tool_id">
     page_sidebar = sidebar.replace(f'class="tool-tab" href="/{tool_id}/"', f'class="tool-tab active" href="/{tool_id}/"')
 
     page_html = template.replace('{{ title }}', f'{title} - Toolbox Hub')

@@ -1,0 +1,18 @@
+<article class="tool-panel" id="json-diff" data-tool-panel>
+              <div class="panel-header"><h3>JSON diff</h3><p>Compare two JSON objects to find differences.</p></div>
+              <div class="grid-two">
+                <div>
+                  <label for="jsonDiffInput1">Original JSON</label>
+                  <textarea id="jsonDiffInput1" spellcheck="false" placeholder='{"name": "John", "age": 30}'></textarea>
+                </div>
+                <div>
+                  <label for="jsonDiffInput2">Modified JSON</label>
+                  <textarea id="jsonDiffInput2" spellcheck="false" placeholder='{"name": "John", "age": 31, "city": "NY"}'></textarea>
+                </div>
+              </div>
+              <div class="button-row"><button id="compareJson" class="button primary">Compare JSON</button><button class="button ghost" data-clear="jsonDiffInput1,jsonDiffInput2,diffLeft,diffRight">Clear</button></div>
+              <div id="jsonDiffOutput" class="result diff-result grid-two" aria-live="polite">
+                <div id="diffLeft" class="diff-pane"></div>
+                <div id="diffRight" class="diff-pane"></div>
+              </div>
+            </article>

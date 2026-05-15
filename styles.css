@@ -108,13 +108,25 @@ footer { color: var(--muted); padding: 28px clamp(18px, 4vw, 42px) 54px; text-al
 .typing-text-display span.correct { color: #22c55e; }
 .typing-text-display span.incorrect { color: #ef4444; text-decoration: underline; background: #fee2e2; }
 .typing-text-display span.current { border-bottom: 2px solid var(--primary); color: var(--text); }
-#typing-test:fullscreen { padding: 40px; background: var(--bg); display: flex; flex-direction: column; overflow-y: auto; }
-#typing-test:fullscreen .panel-header { text-align: center; margin-bottom: 30px; }
-#typing-test:fullscreen .typing-stats { justify-content: center; }
-#typing-test:fullscreen .stat-box { flex: none; min-width: 150px; font-size: 1.4rem; }
-#typing-test:fullscreen .typing-text-display { font-size: 1.5rem; max-height: none; flex: 1; }
-#typing-test:fullscreen #typingInput { min-height: 120px; font-size: 1.2rem; }
-#typing-test:fullscreen .button-row { justify-content: center; margin-top: 20px; }
+
+/* Global Fullscreen Mode */
+.tool-panel:fullscreen { padding: 40px; background: var(--bg); display: flex; flex-direction: column; overflow-y: auto; }
+.tool-panel:fullscreen .panel-header { text-align: center; margin-bottom: 30px; position: relative; }
+.tool-panel:-webkit-full-screen { padding: 40px; background: var(--bg); display: flex; flex-direction: column; overflow-y: auto; }
+.tool-panel:-webkit-full-screen .panel-header { text-align: center; margin-bottom: 30px; position: relative; }
+
+/* Typing Test specific Fullscreen styles */
+.tool-panel:fullscreen .typing-stats { justify-content: center; }
+.tool-panel:fullscreen .stat-box { flex: none; min-width: 150px; font-size: 1.4rem; }
+.tool-panel:fullscreen .typing-text-display { font-size: 1.5rem; max-height: none; flex: 1; }
+.tool-panel:fullscreen #typingInput { min-height: 120px; font-size: 1.2rem; }
+.tool-panel:fullscreen .button-row { justify-content: center; margin-top: 20px; }
+
+/* Injected Fullscreen Toggle Button */
+.fs-toggle-btn { position: absolute; top: 0; right: 0; background: #e2e8f0; color: var(--text); border: none; padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+.fs-toggle-btn:hover { background: #cbd5e1; }
+.tool-panel:fullscreen .fs-toggle-btn { position: absolute; top: 0; right: 0; }
+.tool-panel:-webkit-full-screen .fs-toggle-btn { position: absolute; top: 0; right: 0; }
 
 @media (max-width: 850px) {
   .tool-layout { flex-direction: column; }

@@ -1,0 +1,10 @@
+<article class="tool-panel" id="qr-generator" data-tool-panel>
+              <div class="panel-header"><h3>QR code generator</h3><p>Create QR codes for URLs, text, Wi-Fi details, and more.</p></div>
+              <textarea id="qrInput" placeholder="https://example.com"></textarea>
+              <div class="grid-two">
+                <label>Size<input id="qrSize" type="number" min="120" max="600" value="240" /></label>
+                <label>Error correction<select id="qrEcLevel"><option value="L">Low</option><option value="M" selected>Medium</option><option value="Q">Quartile</option><option value="H">High</option></select></label>
+              </div>
+              <div class="button-row"><button id="generateQr" class="button primary">Generate QR</button><a id="downloadQr" class="button secondary" download="qr-code.png" href="#">Download PNG</a></div>
+              <div id="qrOutput" class="qr-output" aria-live="polite"></div>
+            </article>

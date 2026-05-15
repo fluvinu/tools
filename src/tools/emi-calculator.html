@@ -1,0 +1,13 @@
+<article class="tool-panel" id="emi-calculator" data-tool-panel>
+              <div class="panel-header"><h3>EMI calculator</h3><p>Estimate monthly loan payments with interest and total payable amounts.</p></div>
+              <div class="grid-two">
+                <label>Loan amount<input id="loanAmount" type="number" min="0" step="any" placeholder="500000" /></label>
+                <label>Annual interest rate (%)<input id="annualInterest" type="number" min="0" step="any" placeholder="8.5" /></label>
+              </div>
+              <div class="grid-two">
+                <label>Tenure<input id="loanTenure" type="number" min="1" step="1" placeholder="5" /></label>
+                <label>Tenure unit<select id="tenureUnit"><option value="years" selected>Years</option><option value="months">Months</option></select></label>
+              </div>
+              <div class="button-row"><button id="calculateEmi" class="button primary">Calculate EMI</button><button class="button ghost" data-clear="loanAmount,annualInterest,loanTenure,emiOutput">Clear</button></div>
+              <pre id="emiOutput" class="result"></pre>
+            </article>
