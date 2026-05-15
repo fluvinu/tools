@@ -98,41 +98,6 @@ function escapeHtml(value) {
   }[char]));
 }
 
-function activateTool(tool, shouldScroll = true) {
-  const activeTab = $(`.tool-tab[data-tool="${tool}"]`);
-  const activePanel = document.getElementById(tool);
-  if (!activeTab || !activePanel?.matches('[data-tool-panel]')) return;
-
-  $$('.tool-tab').forEach((item) => {
-    const isActive = item === activeTab;
-    item.classList.toggle('active', isActive);
-    item.setAttribute('aria-selected', String(isActive));
-  });
-
-  $$('[data-tool-panel]').forEach((panel) => {
-    const isActive = panel === activePanel;
-    panel.classList.toggle('active', isActive);
-    panel.hidden = !isActive;
-  });
-
-  if (!shouldScroll) return;
-
-  const navContainer = $('.tool-nav-container');
-  if (navContainer) {
-    navContainer.classList.add('collapsed');
-  }
-
-  activePanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-  const originalBorder = activePanel.style.borderColor;
-  activePanel.style.borderColor = 'var(--primary)';
-  activePanel.style.boxShadow = '0 0 0 2px rgba(37, 99, 235, 0.2)';
-  setTimeout(() => {
-    activePanel.style.borderColor = originalBorder;
-    activePanel.style.boxShadow = '';
-  }, 1500);
-}
-
 function initToolTabs() {
   const toggleBtn = $('#toggleSidebarBtn');
   if (toggleBtn) {
@@ -141,19 +106,8 @@ function initToolTabs() {
     });
   }
 
-  $$('.tool-tab').forEach((tab) => {
-    tab.addEventListener('click', () => activateTool(tab.dataset.tool));
-  });
-
-  $$('a[href^="#"]').forEach((link) => {
-    link.addEventListener('click', () => {
-      const tool = link.getAttribute('href').slice(1);
-      activateTool(tool);
-    });
-  });
-
-  const initialTool = window.location.hash ? window.location.hash.slice(1) : $('.tool-tab.active')?.dataset.tool;
-  if (initialTool) activateTool(initialTool, false);
+  // The sidebar tools are now <a> tags that will navigate, but let's hide the sidebar
+  // if screen is small upon clicking. Navigation will refresh the page anyway.
 
   const searchInput = $('#toolSearch');
   if (searchInput) {
@@ -189,7 +143,7 @@ function initAutoResize() {
 }
 
 function initJsonTools() {
-  $('#validateJson').addEventListener('click', () => {
+  $('#validateJson')?.addEventListener('click', () => {
     try {
       safeJsonParse($('#jsonValidatorInput').value);
       setOutput('jsonValidatorOutput', 'Valid JSON ✅', 'success');
@@ -198,7 +152,7 @@ function initJsonTools() {
     }
   });
 
-  $('#formatJson').addEventListener('click', () => {
+  $('#formatJson')?.addEventListener('click', () => {
     try {
       setOutput('jsonFormatterOutput', JSON.stringify(safeJsonParse($('#jsonFormatterInput').value), null, 2), 'success');
     } catch (error) {
@@ -206,7 +160,7 @@ function initJsonTools() {
     }
   });
 
-  $('#minifyJson').addEventListener('click', () => {
+  $('#minifyJson')?.addEventListener('click', () => {
     try {
       setOutput('jsonFormatterOutput', JSON.stringify(safeJsonParse($('#jsonFormatterInput').value)), 'success');
     } catch (error) {
@@ -214,7 +168,7 @@ function initJsonTools() {
     }
   });
 
-  $('#compareJson').addEventListener('click', () => {
+  $('#compareJson')?.addEventListener('click', () => {
     try {
       const obj1 = safeJsonParse($('#jsonDiffInput1').value);
       const obj2 = safeJsonParse($('#jsonDiffInput2').value);
@@ -287,13 +241,13 @@ function initJsonTools() {
 }
 
 function initGenerators() {
-  $('#generateUuid').addEventListener('click', () => {
+  $('#generateUuid')?.addEventListener('click', () => {
     const count = clampNumber($('#uuidCount').value, 1, 100);
     setOutput('uuidOutput', Array.from({ length: count }, createUuid).join('\n'), 'success');
   });
-  $('#copyUuid').addEventListener('click', () => copyTextFrom('uuidOutput'));
+  $('#copyUuid')?.addEventListener('click', () => copyTextFrom('uuidOutput'));
 
-  $('#generatePassword').addEventListener('click', () => {
+  $('#generatePassword')?.addEventListener('click', () => {
     const sets = [
       $('#useUppercase').checked ? 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' : '',
       $('#useLowercase').checked ? 'abcdefghijklmnopqrstuvwxyz' : '',
@@ -314,25 +268,25 @@ function initGenerators() {
     );
     setOutput('passwordOutput', passwords.join('\n'), 'success');
   });
-  $('#copyPassword').addEventListener('click', () => copyTextFrom('passwordOutput'));
+  $('#copyPassword')?.addEventListener('click', () => copyTextFrom('passwordOutput'));
 }
 
 function initEncoders() {
-  $('#encodeBase64').addEventListener('click', () => {
+  $('#encodeBase64')?.addEventListener('click', () => {
     try { setOutput('base64Output', bytesToBase64($('#base64Input').value), 'success'); }
     catch (error) { setOutput('base64Output', error.message, 'error'); }
   });
-  $('#decodeBase64').addEventListener('click', () => {
+  $('#decodeBase64')?.addEventListener('click', () => {
     try { setOutput('base64Output', base64ToText($('#base64Input').value), 'success'); }
     catch (error) { setOutput('base64Output', 'Invalid Base64 input.', 'error'); }
   });
-  $('#encodeUrl').addEventListener('click', () => setOutput('urlOutput', encodeURIComponent($('#urlInput').value), 'success'));
-  $('#decodeUrl').addEventListener('click', () => {
+  $('#encodeUrl')?.addEventListener('click', () => setOutput('urlOutput', encodeURIComponent($('#urlInput').value), 'success'));
+  $('#decodeUrl')?.addEventListener('click', () => {
     try { setOutput('urlOutput', decodeURIComponent($('#urlInput').value), 'success'); }
     catch (error) { setOutput('urlOutput', 'Invalid URL encoded input.', 'error'); }
   });
 
-  $('#escapeString').addEventListener('click', () => {
+  $('#escapeString')?.addEventListener('click', () => {
     const input = $('#escapeInput').value;
     const format = $('#escapeFormat').value;
     let result = '';
@@ -350,7 +304,7 @@ function initEncoders() {
     }
   });
 
-  $('#unescapeString').addEventListener('click', () => {
+  $('#unescapeString')?.addEventListener('click', () => {
     const input = $('#escapeInput').value;
     const format = $('#escapeFormat').value;
     let result = '';
@@ -371,7 +325,7 @@ function initEncoders() {
 }
 
 function initJwt() {
-  $('#decodeJwt').addEventListener('click', () => {
+  $('#decodeJwt')?.addEventListener('click', () => {
     try {
       const parts = $('#jwtInput').value.trim().split('.');
       if (parts.length < 2) throw new Error('A JWT must include at least header and payload sections.');
@@ -389,14 +343,14 @@ function initJwt() {
 }
 
 function initTimestamp() {
-  $('#useCurrentTime').addEventListener('click', () => {
+  $('#useCurrentTime')?.addEventListener('click', () => {
     const now = new Date();
     $('#timestampInput').value = Math.floor(now.getTime() / 1000);
     $('#dateInput').value = now.toISOString().slice(0, 16);
     setOutput('timestampOutput', formatDateDetails(now), 'success');
   });
 
-  $('#timestampToDate').addEventListener('click', () => {
+  $('#timestampToDate')?.addEventListener('click', () => {
     const raw = $('#timestampInput').value.trim();
     const numeric = Number(raw);
     if (!raw || Number.isNaN(numeric)) {
@@ -407,7 +361,7 @@ function initTimestamp() {
     setOutput('timestampOutput', formatDateDetails(new Date(milliseconds)), 'success');
   });
 
-  $('#dateToTimestamp').addEventListener('click', () => {
+  $('#dateToTimestamp')?.addEventListener('click', () => {
     const date = new Date($('#dateInput').value);
     if (Number.isNaN(date.getTime())) {
       setOutput('timestampOutput', 'Choose a valid date and time.', 'error');
@@ -418,7 +372,7 @@ function initTimestamp() {
 }
 
 function initRegex() {
-  $('#testRegex').addEventListener('click', () => {
+  $('#testRegex')?.addEventListener('click', () => {
     try {
       const pattern = $('#regexPattern').value;
       const flags = $('#regexFlags').value;
@@ -445,7 +399,7 @@ function initRegex() {
 }
 
 function initQr() {
-  $('#generateQr').addEventListener('click', async () => {
+  $('#generateQr')?.addEventListener('click', async () => {
     const text = $('#qrInput').value.trim();
     const size = clampNumber($('#qrSize').value, 120, 600);
     const output = $('#qrOutput');
@@ -474,7 +428,7 @@ function initQr() {
 }
 
 function initCalculators() {
-  $('#calculateAge').addEventListener('click', () => {
+  $('#calculateAge')?.addEventListener('click', () => {
     const birthValue = $('#birthDate').value;
     const targetValue = $('#ageOnDate').value;
     if (!birthValue) {
@@ -498,7 +452,7 @@ function initCalculators() {
     ].join('\n'), 'success');
   });
 
-  $('#calculatePercentage').addEventListener('click', () => {
+  $('#calculatePercentage')?.addEventListener('click', () => {
     const value = getNumber('percentageValue');
     const base = getNumber('percentageBase');
     const rate = getNumber('percentageRate');
@@ -519,7 +473,7 @@ function initCalculators() {
     setOutput('percentageOutput', lines.length ? lines.join('\n') : 'Enter values to calculate percentages.', lines.length ? 'success' : 'error');
   });
 
-  $('#calculateEmi').addEventListener('click', () => {
+  $('#calculateEmi')?.addEventListener('click', () => {
     const principal = getNumber('loanAmount');
     const annualRate = getNumber('annualInterest');
     const tenure = getNumber('loanTenure');
@@ -544,7 +498,7 @@ function initCalculators() {
     ].join('\n'), 'success');
   });
 
-  $('#calculateCgpa').addEventListener('click', () => {
+  $('#calculateCgpa')?.addEventListener('click', () => {
     const rows = $('#cgpaInput').value.trim().split(/\n+/).map((row) => row.split(/[\s,]+/).map(Number));
     let totalCredits = 0;
     let weightedPoints = 0;
@@ -573,7 +527,7 @@ function initCalculators() {
 }
 
 function initImageConverter() {
-  $('#convertImage').addEventListener('click', () => {
+  $('#convertImage')?.addEventListener('click', () => {
     const file = $('#imageInput').files[0];
     const output = $('#imageOutput');
     output.innerHTML = '';
@@ -608,7 +562,7 @@ function initImageConverter() {
 }
 
 function initWordCounter() {
-  $('#countWords').addEventListener('click', () => {
+  $('#countWords')?.addEventListener('click', () => {
     const text = $('#wordCounterInput').value;
     if (!text) {
       setOutput('wordCounterOutput', 'Please enter some text to count.', 'error');
@@ -626,7 +580,7 @@ function initWordCounter() {
   });
 
   // Optional: Auto-update as user types
-  $('#wordCounterInput').addEventListener('input', () => {
+  $('#wordCounterInput')?.addEventListener('input', () => {
       if ($('#wordCounterOutput').textContent !== '') {
           $('#countWords').click();
       }
@@ -634,7 +588,7 @@ function initWordCounter() {
 }
 
 function initPdfTools() {
-  $('#inspectPdf').addEventListener('click', () => {
+  $('#inspectPdf')?.addEventListener('click', () => {
     const file = $('#pdfInput').files[0];
     if (!file) {
       setOutput('pdfOutput', 'Choose a PDF file first.', 'error');
@@ -648,7 +602,7 @@ function initPdfTools() {
     ].join('\n'), 'success');
   });
 
-  $('#printPdfText').addEventListener('click', () => {
+  $('#printPdfText')?.addEventListener('click', () => {
     const text = $('#pdfText').value.trim();
     if (!text) {
       setOutput('pdfOutput', 'Paste text before creating a print-ready PDF.', 'error');
@@ -728,6 +682,8 @@ function initAds() {
 }
 
 function initTypingTest() {
+  const inputField = $('#typingInput');
+  if (!inputField) return;
   const paragraphs = [
     "The quick brown fox jumps over the lazy dog. This sentence contains every letter of the alphabet, which makes it perfect for a typing test. Practice regularly to improve your speed and accuracy.",
     "Programming is the process of creating a set of instructions that tell a computer how to perform a task. Programming can be done using a variety of computer programming languages, such as JavaScript, Python, and C++.",
@@ -736,7 +692,6 @@ function initTypingTest() {
   ];
 
   const textDisplay = $('#typingTextDisplay');
-  const inputField = $('#typingInput');
   const timeDisplay = $('#typingTime');
   const wpmDisplay = $('#typingWpm');
   const accuracyDisplay = $('#typingAccuracy');
@@ -800,7 +755,7 @@ function initTypingTest() {
     }
   }
 
-  inputField.addEventListener('input', () => {
+  inputField?.addEventListener('input', () => {
     let characters = textDisplay.querySelectorAll('span');
     let typedChar = inputField.value.split('')[charsTyped];
 
@@ -844,7 +799,7 @@ function initTypingTest() {
     }
   });
 
-  restartBtn.addEventListener('click', resetTest);
+  restartBtn?.addEventListener('click', resetTest);
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && typingPanel.classList.contains('active')) {
@@ -852,7 +807,7 @@ function initTypingTest() {
     }
   });
 
-  fullscreenBtn.addEventListener('click', () => {
+  fullscreenBtn?.addEventListener('click', () => {
     if (!document.fullscreenElement) {
       if (typingPanel.requestFullscreen) {
         typingPanel.requestFullscreen();

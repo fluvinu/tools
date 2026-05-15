@@ -4,10 +4,10 @@ def run():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
-        page.goto('http://localhost:8000')
+        page.goto('http://localhost:3000')
 
         # Click the typing test tab
-        page.click('button[data-tool="typing-test"]')
+        page.click('a[data-tool="typing-test"]')
 
         # Verify panel is active
         assert page.is_visible('#typing-test')

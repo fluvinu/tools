@@ -3,15 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="A fast all-in-one browser toolkit with developer, calculator, image, and PDF utilities." />
+    <meta name="description" content="{{ description }}" />
     <meta name="keywords" content="developer tools, json validator, json formatter, json diff, string escape, base64 encoder, uuid generator, online tools, utility toolkit, free browser tools" />
-    <meta property="og:title" content="Toolbox Hub - Free Browser Tools in One" />
-    <meta property="og:description" content="A fast all-in-one browser toolkit with developer, calculator, image, and PDF utilities." />
+    <meta property="og:title" content="{{ title }}" />
+    <meta property="og:description" content="{{ description }}" />
     <meta property="og:type" content="website" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
     <meta name="f49e41886bd485f5d223692bb75a3fa93299b921" content="f49e41886bd485f5d223692bb75a3fa93299b921" />
     <meta name="google-adsense-account" content="ca-pub-1860593061024704">
-    <title>Toolbox Hub - Free Browser Tools in One</title>
+    <title>{{ title }}</title>
     <link rel="stylesheet" href="/styles.css" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1860593061024704" crossorigin="anonymous"></script>
   </head>
@@ -36,11 +36,11 @@
             data-ad-format="auto"
             data-full-width-responsive="true">
           </ins>
-        
+
           <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
           </script>
-        
+
           <p class="ad-fallback">Loading advertisement...</p>
         </aside>
 
@@ -56,60 +56,12 @@
               <input type="text" id="toolSearch" placeholder="Search tools..." aria-label="Search tools">
             </div>
             <div class="tool-nav">
-<div class="tool-category">
-                <h4 class="category-title">Data & JSON Tools</h4>
-                <div class="category-tools">
-                  <a class="tool-tab" href="/json-validator/" data-tool="json-validator">JSON validator</a>
-                  <a class="tool-tab" href="/json-formatter/" data-tool="json-formatter">JSON formatter</a>
-                  <a class="tool-tab" href="/json-diff/" data-tool="json-diff">JSON diff</a>
-                </div>
-              </div>
-              <div class="tool-category">
-                <h4 class="category-title">Encoders & Decoders</h4>
-                <div class="category-tools">
-                  <a class="tool-tab" href="/base64-encoder/" data-tool="base64-encoder">Base64 encoder</a>
-                  <a class="tool-tab" href="/url-encoder/" data-tool="url-encoder">URL encoder</a>
-                  <a class="tool-tab" href="/jwt-decoder/" data-tool="jwt-decoder">JWT decoder</a>
-                  <a class="tool-tab" href="/string-escape/" data-tool="string-escape">String escape</a>
-                </div>
-              </div>
-              <div class="tool-category">
-                <h4 class="category-title">Generators & Utilities</h4>
-                <div class="category-tools">
-                  <a class="tool-tab" href="/uuid-generator/" data-tool="uuid-generator">UUID generator</a>
-                  <a class="tool-tab" href="/password-generator/" data-tool="password-generator">Password generator</a>
-                  <a class="tool-tab" href="/qr-generator/" data-tool="qr-generator">QR code generator</a>
-                  <a class="tool-tab" href="/timestamp-converter/" data-tool="timestamp-converter">Timestamp converter</a>
-                  <a class="tool-tab" href="/regex-tester/" data-tool="regex-tester">Regex tester</a>
-                  <a class="tool-tab" href="/word-counter/" data-tool="word-counter">Word & Character Counter</a>
-                  <a class="tool-tab" href="/typing-test/" data-tool="typing-test">Typing speed test</a>
-                </div>
-              </div>
-              <div class="tool-category">
-                <h4 class="category-title">Calculators</h4>
-                <div class="category-tools">
-                  <a class="tool-tab" href="/age-calculator/" data-tool="age-calculator">Age calculator</a>
-                  <a class="tool-tab" href="/percentage-calculator/" data-tool="percentage-calculator">Percentage calculator</a>
-                  <a class="tool-tab" href="/emi-calculator/" data-tool="emi-calculator">EMI calculator</a>
-                  <a class="tool-tab" href="/cgpa-calculator/" data-tool="cgpa-calculator">CGPA calculator</a>
-                </div>
-              </div>
-              <div class="tool-category">
-                <h4 class="category-title">Media & Documents</h4>
-                <div class="category-tools">
-                  <a class="tool-tab" href="/image-converter/" data-tool="image-converter">Image converter</a>
-                  <a class="tool-tab" href="/pdf-tools/" data-tool="pdf-tools">PDF tools</a>
-                </div>
-              </div>
+{{ sidebar }}
             </div>
           </aside>
 
           <div class="tool-panels">
-
-            <article class="tool-panel active">
-              <div class="panel-header"><h3>Welcome to Toolbox Hub</h3><p>Select a tool from the sidebar to get started.</p></div>
-            </article>
-
+{{ tool_panel }}
           </div>
         </div>
       </section>
@@ -130,16 +82,16 @@
               </script>
 
           </div>
-          
+
           <span>Advertisement</span>
-        
+
           <ins class="adsbygoogle"
             style="display:block"
             data-ad-client="ca-pub-1860593061024704"
             data-ad-slot="6769060696"
             data-ad-format="rectangle">
           </ins>
-        
+
           <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
           </script>
@@ -159,7 +111,7 @@
     <div>
       <script src="https://5gvci.com/act/files/tag.min.js?z=11004419" data-cfasync="false" async></script>
       </div>
-    
+
     <footer>
       <p>Toolbox Hub runs client-side in your browser. JWT decoding does not verify signatures.</p>
     </footer>

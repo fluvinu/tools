@@ -3,15 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="A fast all-in-one browser toolkit with developer, calculator, image, and PDF utilities." />
+    <meta name="description" content="Pretty-print or minify JSON for APIs and configs." />
     <meta name="keywords" content="developer tools, json validator, json formatter, json diff, string escape, base64 encoder, uuid generator, online tools, utility toolkit, free browser tools" />
-    <meta property="og:title" content="Toolbox Hub - Free Browser Tools in One" />
-    <meta property="og:description" content="A fast all-in-one browser toolkit with developer, calculator, image, and PDF utilities." />
+    <meta property="og:title" content="JSON formatter - Toolbox Hub" />
+    <meta property="og:description" content="Pretty-print or minify JSON for APIs and configs." />
     <meta property="og:type" content="website" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
     <meta name="f49e41886bd485f5d223692bb75a3fa93299b921" content="f49e41886bd485f5d223692bb75a3fa93299b921" />
     <meta name="google-adsense-account" content="ca-pub-1860593061024704">
-    <title>Toolbox Hub - Free Browser Tools in One</title>
+    <title>JSON formatter - Toolbox Hub</title>
     <link rel="stylesheet" href="/styles.css" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1860593061024704" crossorigin="anonymous"></script>
   </head>
@@ -36,11 +36,11 @@
             data-ad-format="auto"
             data-full-width-responsive="true">
           </ins>
-        
+
           <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
           </script>
-        
+
           <p class="ad-fallback">Loading advertisement...</p>
         </aside>
 
@@ -60,7 +60,7 @@
                 <h4 class="category-title">Data & JSON Tools</h4>
                 <div class="category-tools">
                   <a class="tool-tab" href="/json-validator/" data-tool="json-validator">JSON validator</a>
-                  <a class="tool-tab" href="/json-formatter/" data-tool="json-formatter">JSON formatter</a>
+                  <a class="tool-tab active" href="/json-formatter/" data-tool="json-formatter">JSON formatter</a>
                   <a class="tool-tab" href="/json-diff/" data-tool="json-diff">JSON diff</a>
                 </div>
               </div>
@@ -105,11 +105,12 @@
           </aside>
 
           <div class="tool-panels">
-
-            <article class="tool-panel active">
-              <div class="panel-header"><h3>Welcome to Toolbox Hub</h3><p>Select a tool from the sidebar to get started.</p></div>
+<article class="tool-panel active" id="json-formatter" data-tool-panel>
+              <div class="panel-header"><h3>JSON formatter</h3><p>Pretty-print or minify JSON for APIs and configs.</p></div>
+              <textarea id="jsonFormatterInput" spellcheck="false" placeholder='{"compact":true,"items":[1,2,3]}'></textarea>
+              <div class="button-row"><button id="formatJson" class="button primary">Format</button><button id="minifyJson" class="button secondary">Minify</button><button class="button ghost" data-clear="jsonFormatterInput,jsonFormatterOutput">Clear</button></div>
+              <pre id="jsonFormatterOutput" class="result"></pre>
             </article>
-
           </div>
         </div>
       </section>
@@ -130,16 +131,16 @@
               </script>
 
           </div>
-          
+
           <span>Advertisement</span>
-        
+
           <ins class="adsbygoogle"
             style="display:block"
             data-ad-client="ca-pub-1860593061024704"
             data-ad-slot="6769060696"
             data-ad-format="rectangle">
           </ins>
-        
+
           <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
           </script>
@@ -159,7 +160,7 @@
     <div>
       <script src="https://5gvci.com/act/files/tag.min.js?z=11004419" data-cfasync="false" async></script>
       </div>
-    
+
     <footer>
       <p>Toolbox Hub runs client-side in your browser. JWT decoding does not verify signatures.</p>
     </footer>
