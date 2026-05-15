@@ -46,7 +46,7 @@
 
       <section id="tools" class="tools-section" aria-labelledby="tools-title">
         <div class="section-heading">
-          <p class="eyebrow">17 tools included <button id="toggleSidebarBtn" class="button ghost" style="padding: 4px 8px; margin-left: 8px; font-size: 0.75rem;">Toggle sidebar</button></p>
+          <p class="eyebrow">18 tools included <button id="toggleSidebarBtn" class="button ghost" style="padding: 4px 8px; margin-left: 8px; font-size: 0.75rem;">Toggle sidebar</button></p>
           <h2 id="tools-title">Choose a utility</h2>
         </div>
 
@@ -82,6 +82,7 @@
                   <button class="tool-tab" data-tool="timestamp-converter">Timestamp converter</button>
                   <button class="tool-tab" data-tool="regex-tester">Regex tester</button>
                   <button class="tool-tab" data-tool="word-counter">Word & Character Counter</button>
+                  <button class="tool-tab" data-tool="typing-test">Typing speed test</button>
                 </div>
               </div>
               <div class="tool-category">
@@ -305,6 +306,19 @@
               <textarea id="wordCounterInput" placeholder="Type or paste your text here..."></textarea>
               <div class="button-row"><button id="countWords" class="button primary">Count</button><button class="button ghost" data-clear="wordCounterInput,wordCounterOutput">Clear</button></div>
               <pre id="wordCounterOutput" class="result"></pre>
+            </article>
+
+            <article class="tool-panel" id="typing-test" data-tool-panel>
+              <div class="panel-header"><h3>Typing speed test</h3><p>Test your typing speed and accuracy in a full-screen experience.</p></div>
+              <div class="typing-stats">
+                <div class="stat-box"><strong>Time:</strong> <span id="typingTime">60</span>s</div>
+                <div class="stat-box"><strong>WPM:</strong> <span id="typingWpm">0</span></div>
+                <div class="stat-box"><strong>Accuracy:</strong> <span id="typingAccuracy">100</span>%</div>
+                <div class="stat-box"><strong>Errors:</strong> <span id="typingErrors">0</span></div>
+              </div>
+              <div id="typingTextDisplay" class="typing-text-display"></div>
+              <textarea id="typingInput" spellcheck="false" placeholder="Start typing here..."></textarea>
+              <div class="button-row"><button id="restartTyping" class="button primary">Restart test</button><button id="fullscreenTyping" class="button secondary">Full screen</button></div>
             </article>
           </div>
         </div>
