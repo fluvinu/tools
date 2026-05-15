@@ -100,6 +100,22 @@ label { display: grid; gap: 8px; color: #334155; font-weight: 750; margin-bottom
 code { background: #e2e8f0; padding: 2px 6px; border-radius: 8px; color: #0f172a; }
 footer { color: var(--muted); padding: 28px clamp(18px, 4vw, 42px) 54px; text-align: center; }
 
+/* Typing Test Styles */
+.typing-stats { display: flex; gap: 16px; margin-bottom: 18px; flex-wrap: wrap; }
+.stat-box { background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; padding: 10px 16px; font-size: 1.1rem; flex: 1; text-align: center; }
+.typing-text-display { font-size: 1.25rem; line-height: 1.6; margin-bottom: 18px; padding: 18px; background: #f8fafc; border: 1px solid var(--border); border-radius: 16px; user-select: none; max-height: 250px; overflow-y: auto; color: var(--muted); font-family: "SFMono-Regular", Consolas, monospace; letter-spacing: 0.02em; }
+.typing-text-display span { transition: color 0.1s; }
+.typing-text-display span.correct { color: #22c55e; }
+.typing-text-display span.incorrect { color: #ef4444; text-decoration: underline; background: #fee2e2; }
+.typing-text-display span.current { border-bottom: 2px solid var(--primary); color: var(--text); }
+#typing-test:fullscreen { padding: 40px; background: var(--bg); display: flex; flex-direction: column; overflow-y: auto; }
+#typing-test:fullscreen .panel-header { text-align: center; margin-bottom: 30px; }
+#typing-test:fullscreen .typing-stats { justify-content: center; }
+#typing-test:fullscreen .stat-box { flex: none; min-width: 150px; font-size: 1.4rem; }
+#typing-test:fullscreen .typing-text-display { font-size: 1.5rem; max-height: none; flex: 1; }
+#typing-test:fullscreen #typingInput { min-height: 120px; font-size: 1.2rem; }
+#typing-test:fullscreen .button-row { justify-content: center; margin-top: 20px; }
+
 @media (max-width: 850px) {
   .tool-layout { flex-direction: column; }
   .tool-nav-container { flex: none; position: static; max-height: none; overflow-y: visible; padding-right: 0; width: 100%; }

@@ -727,6 +727,144 @@ function initAds() {
   }
 }
 
+function initTypingTest() {
+  const paragraphs = [
+    "The quick brown fox jumps over the lazy dog. This sentence contains every letter of the alphabet, which makes it perfect for a typing test. Practice regularly to improve your speed and accuracy.",
+    "Programming is the process of creating a set of instructions that tell a computer how to perform a task. Programming can be done using a variety of computer programming languages, such as JavaScript, Python, and C++.",
+    "A journey of a thousand miles begins with a single step. Success is not final, failure is not fatal: it is the courage to continue that counts. Believe you can and you're halfway there.",
+    "Web development is the work involved in developing a website for the Internet or an intranet. Web development can range from developing a simple single static page of plain text to complex web applications."
+  ];
+
+  const textDisplay = $('#typingTextDisplay');
+  const inputField = $('#typingInput');
+  const timeDisplay = $('#typingTime');
+  const wpmDisplay = $('#typingWpm');
+  const accuracyDisplay = $('#typingAccuracy');
+  const errorsDisplay = $('#typingErrors');
+  const restartBtn = $('#restartTyping');
+  const fullscreenBtn = $('#fullscreenTyping');
+  const typingPanel = $('#typing-test');
+
+  let timer;
+  let maxTime = 60;
+  let timeLeft = maxTime;
+  let isTyping = false;
+  let totalErrors = 0;
+  let charsTyped = 0;
+  let targetText = "";
+
+  function loadNewParagraph() {
+    const randomIndex = Math.floor(Math.random() * paragraphs.length);
+    targetText = paragraphs[randomIndex];
+    textDisplay.innerHTML = '';
+    targetText.split('').forEach(char => {
+      let span = document.createElement('span');
+      span.innerText = char;
+      textDisplay.appendChild(span);
+    });
+    textDisplay.querySelectorAll('span')[0].classList.add('current');
+  }
+
+  function resetTest() {
+    loadNewParagraph();
+    clearInterval(timer);
+    timeLeft = maxTime;
+    isTyping = false;
+    totalErrors = 0;
+    charsTyped = 0;
+    inputField.value = '';
+    inputField.disabled = false;
+    timeDisplay.innerText = timeLeft;
+    wpmDisplay.innerText = 0;
+    accuracyDisplay.innerText = 100;
+    errorsDisplay.innerText = 0;
+    inputField.focus();
+  }
+
+  function initTimer() {
+    if (timeLeft > 0) {
+      timeLeft--;
+      timeDisplay.innerText = timeLeft;
+
+      let wpm = Math.round((((charsTyped - totalErrors) / 5) / (maxTime - timeLeft)) * 60);
+      wpmDisplay.innerText = wpm < 0 || !wpm || wpm === Infinity ? 0 : wpm;
+    } else {
+      clearInterval(timer);
+      inputField.disabled = true;
+    }
+  }
+
+  inputField.addEventListener('input', () => {
+    let characters = textDisplay.querySelectorAll('span');
+    let typedChar = inputField.value.split('')[charsTyped];
+
+    if (!isTyping) {
+      timer = setInterval(initTimer, 1000);
+      isTyping = true;
+    }
+
+    if (typedChar == null) { // User backspaced
+      charsTyped--;
+      if (characters[charsTyped].classList.contains('incorrect')) {
+        totalErrors--;
+      }
+      characters[charsTyped].classList.remove('correct', 'incorrect');
+      characters[charsTyped].classList.add('current');
+      if (charsTyped + 1 < characters.length) {
+         characters[charsTyped + 1].classList.remove('current');
+      }
+    } else {
+      if (characters[charsTyped].innerText === typedChar) {
+        characters[charsTyped].classList.add('correct');
+      } else {
+        totalErrors++;
+        characters[charsTyped].classList.add('incorrect');
+      }
+      characters[charsTyped].classList.remove('current');
+      charsTyped++;
+      if (charsTyped < characters.length) {
+        characters[charsTyped].classList.add('current');
+      }
+    }
+
+    errorsDisplay.innerText = totalErrors;
+    let accuracy = charsTyped === 0 ? 100 : Math.round(((charsTyped - totalErrors) / charsTyped) * 100);
+    accuracyDisplay.innerText = accuracy < 0 ? 0 : accuracy;
+
+    // Check if finished paragraph before time is up
+    if (charsTyped >= characters.length) {
+      clearInterval(timer);
+      inputField.disabled = true;
+    }
+  });
+
+  restartBtn.addEventListener('click', resetTest);
+
+  fullscreenBtn.addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+      if (typingPanel.requestFullscreen) {
+        typingPanel.requestFullscreen();
+      } else if (typingPanel.webkitRequestFullscreen) { /* Safari */
+        typingPanel.webkitRequestFullscreen();
+      } else if (typingPanel.msRequestFullscreen) { /* IE11 */
+        typingPanel.msRequestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) { /* Safari */
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) { /* IE11 */
+        document.msExitFullscreen();
+      }
+    }
+  });
+
+  // Also hook into activating tool to maybe reset test, though manual click is fine.
+  // Initial load
+  loadNewParagraph();
+}
+
 initAutoResize();
 initToolTabs();
 initJsonTools();
@@ -740,6 +878,7 @@ initCalculators();
 initImageConverter();
 initPdfTools();
 initWordCounter();
+initTypingTest();
 initResultCopyButtons();
 initClearButtons();
 initAds();
