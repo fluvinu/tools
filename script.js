@@ -810,10 +810,10 @@ function initTypingTest() {
   restartBtn?.addEventListener('click', resetTest);
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && typingPanel.classList.contains('active')) {
-      resetTest();
-    }
-  });
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter' && typingPanel.classList.contains('active')) {
+    resetTest();
+  }
+ });
 
   // Also hook into activating tool to maybe reset test, though manual click is fine.
   // Initial load
