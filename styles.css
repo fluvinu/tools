@@ -32,7 +32,7 @@ body {
 .topbar, main, footer { max-width: 1180px; margin: 0 auto; }
 .topbar { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .brand { display: inline-flex; align-items: center; gap: 12px; color: white; text-decoration: none; font-weight: 800; font-size: 1.1rem; }
-.brand-mark { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 14px; background: white; color: var(--primary); box-shadow: var(--shadow); }
+.brand-mark { width: 42px; height: 42px; border-radius: 14px; object-fit: contain; background: white; box-shadow: var(--shadow); }
 .github-link { color: white; text-decoration: none; border: 1px solid rgba(255,255,255,.35); border-radius: 999px; padding: 10px 18px; }
 .eyebrow { color: #38bdf8; font-weight: 800; text-transform: uppercase; letter-spacing: .12em; margin: 0 0 12px; font-size: .78rem; }
 h2, h3 { margin: 0; line-height: 1.05; }
