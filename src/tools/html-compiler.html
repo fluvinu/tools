@@ -1,0 +1,44 @@
+<article class="tool-panel" id="html-compiler">
+  <div class="panel-header">
+    <h3>HTML Compiler & Live Preview</h3>
+    <p>Write HTML, Markdown or Pug, add CSS and JavaScript, and preview the result in real-time.</p>
+  </div>
+
+  <div class="tool-content">
+    <div class="grid-two">
+      <div class="input-group">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+          <label for="compilerHtmlInput">Markup / Template</label>
+          <select id="compilerLanguage" style="width: auto; padding: 2px 4px; font-size: 0.85rem;">
+            <option value="html">HTML</option>
+            <option value="markdown">Markdown</option>
+            <option value="pug">Pug / Jade</option>
+          </select>
+        </div>
+        <textarea id="compilerHtmlInput" rows="6" placeholder="Enter HTML, Markdown or Pug code..."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="compilerCssInput">CSS</label>
+        <textarea id="compilerCssInput" rows="6" placeholder="Enter CSS styles..."></textarea>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="compilerJsInput">JavaScript</label>
+      <textarea id="compilerJsInput" rows="4" placeholder="Enter JavaScript code..."></textarea>
+    </div>
+
+    <div class="action-buttons">
+      <button id="runCompiler" class="button primary" style="display: none;">Compile & Run</button>
+      <button class="button secondary" data-clear="compilerHtmlInput,compilerCssInput,compilerJsInput,compilerLanguage">Clear</button>
+    </div>
+
+    <div class="input-group">
+      <label>Live Preview</label>
+      <div class="result result-iframe" style="padding: 0; overflow: hidden; height: 350px;">
+        <iframe id="compilerOutput" style="width: 100%; height: 100%; border: none; background: #fff;" sandbox="allow-scripts" srcdoc="<!DOCTYPE html><html><head></head><body></body></html>"></iframe>
+      </div>
+    </div>
+  </div>
+</article>
