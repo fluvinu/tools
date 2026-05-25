@@ -3,15 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Test your typing speed and accuracy in a full-screen experience." />
+    <meta name="description" content="Write HTML, Markdown or Pug, add CSS and JavaScript, and preview the result in real-time." />
     <meta name="keywords" content="developer tools, json validator, json formatter, json diff, string escape, base64 encoder, uuid generator, online tools, utility toolkit, free browser tools" />
-    <meta property="og:title" content="Typing speed test - Toolbox Hub" />
-    <meta property="og:description" content="Test your typing speed and accuracy in a full-screen experience." />
+    <meta property="og:title" content="HTML Compiler & Live Preview - Toolbox Hub" />
+    <meta property="og:description" content="Write HTML, Markdown or Pug, add CSS and JavaScript, and preview the result in real-time." />
     <meta property="og:type" content="website" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
     <meta name="f49e41886bd485f5d223692bb75a3fa93299b921" content="f49e41886bd485f5d223692bb75a3fa93299b921" />
     <meta name="google-adsense-account" content="ca-pub-1860593061024704">
-    <title>Typing speed test - Toolbox Hub</title>
+    <title>HTML Compiler & Live Preview - Toolbox Hub</title>
     <link rel="stylesheet" href="/styles.css" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1860593061024704" crossorigin="anonymous"></script>
   </head>
@@ -76,14 +76,14 @@
               <div class="tool-category">
                 <h4 class="category-title">Generators & Utilities</h4>
                 <div class="category-tools">
-                  <a class="tool-tab" href="/html-compiler/" data-tool="html-compiler">HTML Compiler</a>
+                  <a class="tool-tab active" href="/html-compiler/" data-tool="html-compiler">HTML Compiler</a>
                   <a class="tool-tab" href="/uuid-generator/" data-tool="uuid-generator">UUID generator</a>
                   <a class="tool-tab" href="/password-generator/" data-tool="password-generator">Password generator</a>
                   <a class="tool-tab" href="/qr-generator/" data-tool="qr-generator">QR code generator</a>
                   <a class="tool-tab" href="/timestamp-converter/" data-tool="timestamp-converter">Timestamp converter</a>
                   <a class="tool-tab" href="/regex-tester/" data-tool="regex-tester">Regex tester</a>
                   <a class="tool-tab" href="/word-counter/" data-tool="word-counter">Word & Character Counter</a>
-                  <a class="tool-tab active" href="/typing-test/" data-tool="typing-test">Typing speed test</a>
+                  <a class="tool-tab" href="/typing-test/" data-tool="typing-test">Typing speed test</a>
                 </div>
               </div>
               <div class="tool-category">
@@ -106,18 +106,51 @@
           </aside>
 
           <div class="tool-panels">
-<article class="tool-panel active" id="typing-test" data-tool-panel>
-              <div class="panel-header"><h3>Typing speed test</h3><p>Test your typing speed and accuracy in a full-screen experience.</p></div>
-              <div class="typing-stats">
-                <div class="stat-box"><strong>Time:</strong> <span id="typingTime">60</span>s</div>
-                <div class="stat-box"><strong>WPM:</strong> <span id="typingWpm">0</span></div>
-                <div class="stat-box"><strong>Accuracy:</strong> <span id="typingAccuracy">100</span>%</div>
-                <div class="stat-box"><strong>Errors:</strong> <span id="typingErrors">0</span></div>
-              </div>
-              <div id="typingTextDisplay" class="typing-text-display"></div>
-              <textarea id="typingInput" spellcheck="false" placeholder="Start typing here..."></textarea>
-              <div class="button-row"><button id="restartTyping" class="button primary">Restart test</button></div>
-            </article>
+<article class="tool-panel active" id="html-compiler">
+  <div class="panel-header">
+    <h3>HTML Compiler & Live Preview</h3>
+    <p>Write HTML, Markdown or Pug, add CSS and JavaScript, and preview the result in real-time.</p>
+  </div>
+
+  <div class="tool-content">
+    <div class="grid-two">
+      <div class="input-group">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+          <label for="compilerHtmlInput">Markup / Template</label>
+          <select id="compilerLanguage" style="width: auto; padding: 2px 4px; font-size: 0.85rem;">
+            <option value="html">HTML</option>
+            <option value="markdown">Markdown</option>
+            <option value="pug">Pug / Jade</option>
+          </select>
+        </div>
+        <textarea id="compilerHtmlInput" rows="6" placeholder="Enter HTML, Markdown or Pug code..."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="compilerCssInput">CSS</label>
+        <textarea id="compilerCssInput" rows="6" placeholder="Enter CSS styles..."></textarea>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="compilerJsInput">JavaScript</label>
+      <textarea id="compilerJsInput" rows="4" placeholder="Enter JavaScript code..."></textarea>
+    </div>
+
+    <div class="action-buttons">
+      <button id="runCompiler" class="button primary" style="display: none;">Compile & Run</button>
+      <button class="button secondary" data-clear="compilerHtmlInput,compilerCssInput,compilerJsInput,compilerLanguage">Clear</button>
+    </div>
+
+    <div class="input-group">
+      <label>Live Preview</label>
+      <div class="result result-iframe" style="padding: 0; overflow: hidden; height: 350px;">
+        <iframe id="compilerOutput" style="width: 100%; height: 100%; border: none; background: #fff;" sandbox="allow-scripts" srcdoc="<!DOCTYPE html><html><head></head><body></body></html>"></iframe>
+      </div>
+    </div>
+  </div>
+</article>
+
           </div>
         </div>
       </section>

@@ -690,6 +690,59 @@ function initAds() {
   }
 }
 
+function initHtmlCompiler() {
+  const htmlInput = $('#compilerHtmlInput');
+  const cssInput = $('#compilerCssInput');
+  const jsInput = $('#compilerJsInput');
+  const languageSelect = $('#compilerLanguage');
+  const iframe = $('#compilerOutput');
+
+  if (!htmlInput || !cssInput || !jsInput || !languageSelect || !iframe) return;
+
+  function updatePreview() {
+    const htmlValue = htmlInput.value;
+    const cssValue = cssInput.value;
+    const jsValue = jsInput.value;
+    const language = languageSelect.value;
+
+    let compiledHtml = '';
+
+    try {
+      if (language === 'markdown' && window.marked) {
+        compiledHtml = marked.parse(htmlValue);
+      } else if (language === 'pug' && window.jade) {
+        compiledHtml = jade.render(htmlValue);
+      } else {
+        compiledHtml = htmlValue;
+      }
+    } catch (error) {
+      compiledHtml = `<div style="color: red; font-family: sans-serif; padding: 10px;">Compiler Error: ${error.message}</div>`;
+    }
+
+    const srcdoc = `<!DOCTYPE html>
+<html>
+  <head>
+    <style>${cssValue}</style>
+  </head>
+  <body>
+    ${compiledHtml}
+    <script>${jsValue}<\/script>
+  </body>
+</html>`;
+
+    iframe.srcdoc = srcdoc;
+  }
+
+  [htmlInput, cssInput, jsInput, languageSelect].forEach(element => {
+    element.addEventListener('input', updatePreview);
+  });
+
+  // Force initial compile if there's pre-filled value
+  if (htmlInput.value || cssInput.value || jsInput.value) {
+    updatePreview();
+  }
+}
+
 function initTypingTest() {
   const inputField = $('#typingInput');
   if (!inputField) return;
@@ -879,3 +932,4 @@ initFullscreen();
 initResultCopyButtons();
 initClearButtons();
 initAds();
+initHtmlCompiler();
