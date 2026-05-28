@@ -691,21 +691,25 @@ function initAds() {
 }
 
 function initHtmlCompiler() {
-  const htmlInput = $('#compilerHtmlInput');
-  const cssInput = $('#compilerCssInput');
-  const jsInput = $('#compilerJsInput');
+  const editor = $('#compilerEditor');
+  const modeSelect = $('#compilerMode');
   const languageSelect = $('#compilerLanguage');
+  const clearBtn = $('#clearCompiler');
   const iframe = $('#compilerOutput');
 
-  if (!htmlInput || !cssInput || !jsInput || !languageSelect || !iframe) return;
+  if (!editor || !modeSelect || !languageSelect || !iframe) return;
+
+  let codeState = {
+    html: '',
+    css: '',
+    js: ''
+  };
 
   function updatePreview() {
-    const htmlValue = htmlInput.value;
-    const cssValue = cssInput.value;
-    const jsValue = jsInput.value;
     const language = languageSelect.value;
 
     let compiledHtml = '';
+    const htmlValue = codeState.html;
 
     try {
       if (language === 'markdown' && window.marked) {
@@ -722,25 +726,59 @@ function initHtmlCompiler() {
     const srcdoc = `<!DOCTYPE html>
 <html>
   <head>
-    <style>${cssValue}</style>
+    <style>${codeState.css}</style>
   </head>
   <body>
     ${compiledHtml}
-    <script>${jsValue}<\/script>
+    <script>${codeState.js}<\/script>
   </body>
 </html>`;
 
     iframe.srcdoc = srcdoc;
   }
 
-  [htmlInput, cssInput, jsInput, languageSelect].forEach(element => {
-    element.addEventListener('input', updatePreview);
+  modeSelect.addEventListener('change', () => {
+    const mode = modeSelect.value;
+
+    // Update visibility of the language selector
+    if (mode === 'html') {
+      languageSelect.style.display = 'inline-block';
+      editor.placeholder = "Enter HTML, Markdown or Pug code...";
+    } else if (mode === 'css') {
+      languageSelect.style.display = 'none';
+      editor.placeholder = "Enter CSS styles...";
+    } else if (mode === 'js') {
+      languageSelect.style.display = 'none';
+      editor.placeholder = "Enter JavaScript code...";
+    }
+
+    // Set editor value to the selected mode's state
+    editor.value = codeState[mode];
+
+    // Resize textarea (using existing auto-expand logic if possible, or just reset)
+    editor.style.height = 'auto';
+    editor.style.height = `${editor.scrollHeight}px`;
   });
 
-  // Force initial compile if there's pre-filled value
-  if (htmlInput.value || cssInput.value || jsInput.value) {
+  editor.addEventListener('input', () => {
+    const mode = modeSelect.value;
+    codeState[mode] = editor.value;
     updatePreview();
+  });
+
+  languageSelect.addEventListener('change', updatePreview);
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      // Data-clear takes care of the editor value and language select,
+      // but we need to reset the internal state as well.
+      codeState = { html: '', css: '', js: '' };
+      updatePreview();
+    });
   }
+
+  // Force initial compile
+  updatePreview();
 }
 
 function initTypingTest() {
