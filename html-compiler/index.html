@@ -97,33 +97,31 @@
   </div>
 
   <div class="tool-content">
-    <div class="grid-two">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <select id="compilerLanguage" style="width: auto; padding: 4px; font-size: 0.85rem;">
+          <option value="html">HTML</option>
+          <option value="markdown">Markdown</option>
+          <option value="pug">Pug / Jade</option>
+        </select>
+      </div>
+      <button id="clearCompiler" class="button secondary" style="padding: 4px 8px; font-size: 0.85rem; width: auto; min-width: 0;" data-clear="compilerEditor,compilerLanguage">Clear</button>
+    </div>
+
+    <div class="compiler-layout">
       <!-- Editor Column -->
-      <div class="input-group" style="margin-bottom: 0; display: flex; flex-direction: column;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-          <div style="display: flex; align-items: center; gap: 0.5rem;">
-            <select id="compilerMode" style="width: auto; padding: 4px; font-size: 0.85rem;">
-              <option value="html">HTML</option>
-              <option value="css">CSS</option>
-              <option value="js">JavaScript</option>
-            </select>
-            <select id="compilerLanguage" style="width: auto; padding: 4px; font-size: 0.85rem;">
-              <option value="html">HTML</option>
-              <option value="markdown">Markdown</option>
-              <option value="pug">Pug / Jade</option>
-            </select>
-          </div>
-          <button id="clearCompiler" class="button secondary" style="padding: 4px 8px; font-size: 0.85rem; width: auto; min-width: 0;" data-clear="compilerEditor,compilerLanguage">Clear</button>
+      <div class="compiler-editor-pane">
+        <div class="compiler-tabs">
+          <button data-mode="html" class="active">index.html</button>
+          <button data-mode="css">style.css</button>
+          <button data-mode="js">script.js</button>
         </div>
-        <textarea id="compilerEditor" rows="15" style="flex: 1;" placeholder="Enter HTML, Markdown or Pug code..."></textarea>
+        <textarea id="compilerEditor" class="compiler-textarea no-auto-expand" placeholder="Enter HTML, Markdown or Pug code..."></textarea>
       </div>
 
       <!-- Preview Column -->
-      <div class="input-group" style="margin-bottom: 0; display: flex; flex-direction: column;">
-        <label style="margin-bottom: 0.5rem; display: block; padding-top: 4px;">Live Preview</label>
-        <div class="result result-iframe" style="padding: 0; overflow: hidden; flex: 1; min-height: 350px;">
-          <iframe id="compilerOutput" style="width: 100%; height: 100%; border: none; background: #fff;" sandbox="allow-scripts" srcdoc="<!DOCTYPE html><html><head></head><body></body></html>"></iframe>
-        </div>
+      <div class="compiler-preview-pane">
+        <iframe id="compilerOutput" style="width: 100%; height: 100%; border: none; background: #fff; display: block;" sandbox="allow-scripts" srcdoc="<!DOCTYPE html><html><head></head><body></body></html>"></iframe>
       </div>
     </div>
   </div>
