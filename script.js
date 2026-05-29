@@ -140,6 +140,7 @@ function initToolTabs() {
 function initAutoResize() {
   const textareas = $$('textarea');
   textareas.forEach((textarea) => {
+    if (textarea.classList.contains('no-auto-expand')) return;
     textarea.classList.add('auto-expand');
     const resize = () => {
       textarea.style.height = 'auto';
@@ -692,13 +693,14 @@ function initAds() {
 
 function initHtmlCompiler() {
   const editor = $('#compilerEditor');
-  const modeSelect = $('#compilerMode');
+  const tabs = $$('.compiler-tabs button');
   const languageSelect = $('#compilerLanguage');
   const clearBtn = $('#clearCompiler');
   const iframe = $('#compilerOutput');
 
-  if (!editor || !modeSelect || !languageSelect || !iframe) return;
+  if (!editor || tabs.length === 0 || !languageSelect || !iframe) return;
 
+  let currentMode = 'html';
   let codeState = {
     html: '',
     css: '',
@@ -737,32 +739,34 @@ function initHtmlCompiler() {
     iframe.srcdoc = srcdoc;
   }
 
-  modeSelect.addEventListener('change', () => {
-    const mode = modeSelect.value;
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Update active tab styling
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
 
-    // Update visibility of the language selector
-    if (mode === 'html') {
-      languageSelect.style.display = 'inline-block';
-      editor.placeholder = "Enter HTML, Markdown or Pug code...";
-    } else if (mode === 'css') {
-      languageSelect.style.display = 'none';
-      editor.placeholder = "Enter CSS styles...";
-    } else if (mode === 'js') {
-      languageSelect.style.display = 'none';
-      editor.placeholder = "Enter JavaScript code...";
-    }
+      const mode = tab.dataset.mode;
+      currentMode = mode;
 
-    // Set editor value to the selected mode's state
-    editor.value = codeState[mode];
+      // Update visibility of the language selector based on mode
+      if (mode === 'html') {
+        languageSelect.style.display = 'inline-block';
+        editor.placeholder = "Enter HTML, Markdown or Pug code...";
+      } else if (mode === 'css') {
+        languageSelect.style.display = 'none';
+        editor.placeholder = "Enter CSS styles...";
+      } else if (mode === 'js') {
+        languageSelect.style.display = 'none';
+        editor.placeholder = "Enter JavaScript code...";
+      }
 
-    // Resize textarea (using existing auto-expand logic if possible, or just reset)
-    editor.style.height = 'auto';
-    editor.style.height = `${editor.scrollHeight}px`;
+      // Set editor value to the selected mode's state
+      editor.value = codeState[mode];
+    });
   });
 
   editor.addEventListener('input', () => {
-    const mode = modeSelect.value;
-    codeState[mode] = editor.value;
+    codeState[currentMode] = editor.value;
     updatePreview();
   });
 
@@ -770,9 +774,10 @@ function initHtmlCompiler() {
 
   if (clearBtn) {
     clearBtn.addEventListener('click', () => {
-      // Data-clear takes care of the editor value and language select,
-      // but we need to reset the internal state as well.
+      // Data-clear takes care of the language select,
+      // but we need to reset the internal state and editor value
       codeState = { html: '', css: '', js: '' };
+      editor.value = '';
       updatePreview();
     });
   }
