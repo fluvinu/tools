@@ -29,7 +29,7 @@ body {
 }
 
 
-.topbar, main, footer { max-width: 1180px; margin: 0 auto; }
+.topbar, main, footer { max-width: 100%; margin: 0 auto; }
 .topbar { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .brand { display: inline-flex; align-items: center; gap: 12px; color: white; text-decoration: none; font-weight: 800; font-size: 1.1rem; }
 .brand-mark { width: 42px; height: 42px; border-radius: 14px; object-fit: contain; background: white; box-shadow: var(--shadow); }
@@ -67,7 +67,7 @@ main { padding: 34px clamp(18px, 4vw, 42px) 64px; }
 .tool-category.hidden { display: none; }
 .tool-panels { width: 100%; transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
 .tool-nav-container.collapsed + .tool-panels { width: 100%; }
-.tool-panel { display: none; background: var(--panel); border: 1px solid var(--border); border-radius: 20px; padding: clamp(18px, 3vw, 28px); min-height: 100%; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+.tool-panel { display: none; background: var(--panel); border: 1px solid var(--border); border-radius: 20px; padding: clamp(18px, 3vw, 28px); min-height: calc(100vh - 200px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
 .tool-panel.active { display: block; }
 .panel-header { margin-bottom: 18px; }
 .panel-header h3 { font-size: 1.65rem; letter-spacing: -.03em; }
