@@ -99,42 +99,6 @@ function escapeHtml(value) {
 }
 
 function initToolTabs() {
-  const toggleBtn = $('#toggleSidebarBtn');
-  if (toggleBtn) {
-    toggleBtn.addEventListener('click', () => {
-      $('.tool-nav-container')?.classList.toggle('collapsed');
-    });
-  }
-
-  // The sidebar tools are now <a> tags that will navigate, but let's hide the sidebar
-  // if screen is small upon clicking. Navigation will refresh the page anyway.
-
-  // Collapse sidebar by default if we are on a specific tool page (not the landing page)
-  const isLandingPage = window.location.pathname === '/' || window.location.pathname.endsWith('/index.html') && window.location.pathname.split('/').length <= 2;
-  const isToolPage = window.location.pathname.length > 1 && !isLandingPage;
-  // Let's use a simpler check: if there's an active tab, it's a tool page
-  const activeTab = $('.tool-tab.active');
-  if (activeTab) {
-    $('.tool-nav-container')?.classList.add('collapsed');
-  }
-
-  const searchInput = $('#toolSearch');
-  if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-      const term = e.target.value.toLowerCase().trim();
-      $$('.tool-category').forEach((category) => {
-        let hasVisibleTool = false;
-        const tools = Array.from(category.querySelectorAll('.tool-tab'));
-        tools.forEach((tool) => {
-          const name = tool.textContent.toLowerCase();
-          const matches = name.includes(term);
-          tool.classList.toggle('hidden', !matches);
-          if (matches) hasVisibleTool = true;
-        });
-        category.classList.toggle('hidden', !hasVisibleTool);
-      });
-    });
-  }
 }
 
 function initAutoResize() {

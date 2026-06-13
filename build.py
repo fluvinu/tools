@@ -7,7 +7,7 @@ with open("index.html", "r") as f:
     original_html = f.read()
 
 # Extract sidebar
-sidebar_match = re.search(r'<div class="tool-nav">(.*?)</div>\s*</aside>', original_html, re.DOTALL)
+sidebar_match = re.search(r'<div class="top-nav-menu">(.*?)</div>\s*<a class="github-link"', original_html, re.DOTALL)
 sidebar = sidebar_match.group(1).strip() if sidebar_match else ""
 
 # Modify sidebar: replace <button> tabs with <a> links pointing to /{tool_id}/
@@ -40,7 +40,7 @@ landing_page = landing_page.replace('{{ sidebar }}', sidebar)
 
 landing_placeholder = """
             <article class="tool-panel active">
-              <div class="panel-header"><h3>Welcome to Toolbox Hub</h3><p>Select a tool from the sidebar to get started.</p></div>
+              <div class="panel-header"><h3>Welcome to Toolbox Hub</h3><p>Select a tool from the top menu to get started.</p></div>
             </article>
 """
 landing_page = landing_page.replace('{{ tool_panel }}', landing_placeholder)
