@@ -6,6 +6,10 @@ def run():
         page = browser.new_page()
         page.goto('http://localhost:3000')
 
+        # Hover over the top navigation menu to reveal the dropdown
+        page.hover('.tool-category:has(a[data-tool="typing-test"])')
+        page.wait_for_timeout(500)
+
         # Click the typing test tab
         page.click('a[data-tool="typing-test"]')
 

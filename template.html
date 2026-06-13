@@ -23,6 +23,9 @@
           <img src="/assets/logo.png" alt="Toolbox Hub Logo" class="brand-mark" />
           <span>Toolbox Hub</span>
         </a>
+        <div class="top-nav-menu">
+{{ sidebar }}
+        </div>
         <a class="github-link" href="/">Open tools</a>
       </nav>
     </header>
@@ -30,19 +33,11 @@
     <main>
       <section id="tools" class="tools-section" aria-labelledby="tools-title">
         <div class="section-heading">
-          <p class="eyebrow">19 tools included <button id="toggleSidebarBtn" class="button ghost" style="padding: 4px 8px; margin-left: 8px; font-size: 0.75rem;">Toggle sidebar</button></p>
+          <p class="eyebrow">19 tools included</p>
           <h2 id="tools-title">Choose a utility</h2>
         </div>
 
         <div class="tool-layout">
-          <aside class="tool-nav-container" aria-label="Tool list">
-            <div class="search-container">
-              <input type="text" id="toolSearch" placeholder="Search tools..." aria-label="Search tools">
-            </div>
-            <div class="tool-nav">
-{{ sidebar }}
-            </div>
-          </aside>
 
           <div class="tool-panels">
 {{ tool_panel }}
